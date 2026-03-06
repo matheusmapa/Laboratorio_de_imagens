@@ -26,6 +26,20 @@
         ]
     },
     {
+        "id": "005-editorial-design",
+        "title": "Editorial Mastery: Layouts & Type",
+        "description": "Design de alta sofisticação visual misturando tipografia pesada, colagem digital e grids de revista.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "referencia",
+            "editorial",
+            "layout",
+            "tipografia"
+        ]
+    },
+    {
         "id": "003-design-expert",
         "title": "Design Expert Showcase",
         "description": "Demonstração de design avançado com assets gerados por IA, stickers 3D e efeitos de overlay.",
@@ -111,6 +125,20 @@
         "date": "2026-03-06",
         "tags": [
             "produtividade",
+            "estrategia",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "006-medmapa-raiox",
+        "title": "Raio-X do R1: Cirurgia Geral",
+        "description": "Dados reais sobre o que as bancas (ENARE/SUS) mais cobram em Cirurgia Geral.",
+        "format": "1080x1350",
+        "slides": 6,
+        "date": "2026-03-06",
+        "tags": [
+            "dados",
+            "cirurgia",
             "estrategia",
             "medmapa"
         ]
