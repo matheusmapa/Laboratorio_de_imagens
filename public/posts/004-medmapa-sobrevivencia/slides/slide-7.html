@@ -25,7 +25,7 @@
         transform: translate(-50%, -50%);
         width: 150%;
         height: 150%;
-        background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.12) 0%, transparent 65%);
+        background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 65%);
         pointer-events: none;
         z-index: 0;
     }
@@ -66,30 +66,22 @@
     }
 
     .price-tag {
-        font-size: 110px;
+        font-size: 130px;
         font-weight: 900;
         color: #fff;
         line-height: 1;
-        margin-bottom: 25px;
-        letter-spacing: -4px;
+        margin-bottom: 10px;
+        letter-spacing: -6px;
         text-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
     }
 
-    .price-tag span {
-        font-size: 32px;
-        font-weight: 600;
-        color: #94a3b8;
-        letter-spacing: 0;
-    }
-
     .plan-desc {
-        font-size: 26px;
+        font-size: 28px;
         font-weight: 700;
         color: #34d399;
         text-transform: uppercase;
         letter-spacing: 2px;
         margin-bottom: 50px;
-        line-height: 1.4;
     }
 
     .cta-btn {
@@ -101,7 +93,9 @@
         border-radius: 100px;
         text-align: center;
         box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4), 0 0 20px rgba(16, 185, 129, 0.1);
-        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 15px;
     }
 
     .footer {
@@ -115,15 +109,21 @@
 
 <div class="slide-wrapper">
     <div class="content-area">
-        <h2 class="h2-title">Sua rota pro R1 começa aqui.</h2>
+        <h2 class="h2-title">Sua jornada para a aprovação começa aqui.</h2>
 
         <div class="pricing-card">
-            <div class="price-tag">R$ 19,90<span>/mês</span></div>
-            <div class="plan-desc">PLANO TRIMESTRAL<br>BANCO COMPLETO + ECOSSISTEMA</div>
+            <div class="price-tag">R$ 19,90</div>
+            <div class="plan-desc">Plano Mensal • Plataforma Completa</div>
 
-            <div class="cta-btn">Quero Estudar Focado</div>
+            <div class="cta-btn">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                Garantia Incondicional de 7 Dias
+            </div>
         </div>
 
-        <div class="footer">↑ Toque no link da bio, espie a plataforma e pare de estudar no escuro.</div>
+        <div class="footer">↑ Toque no link da bio para começar agora</div>
     </div>
 </div>

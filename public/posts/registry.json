@@ -12,11 +12,25 @@
         ]
     },
     {
+        "id": "004-style-catalog",
+        "title": "Style Catalog: UI Reference",
+        "description": "Uma biblioteca viva de componentes e estilos (Bento, Neumorfismo, Brutalismo) para guiar o design de novos posts.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "referencia",
+            "ui",
+            "componentes",
+            "estilo"
+        ]
+    },
+    {
         "id": "003-design-expert",
         "title": "Design Expert Showcase",
         "description": "Demonstração de design avançado com assets gerados por IA, stickers 3D e efeitos de overlay.",
         "format": "1080x1350",
-        "slides": 3,
+        "slides": 10,
         "date": "2026-03-06",
         "tags": [
             "showcase",
@@ -89,17 +103,16 @@
         ]
     },
     {
-        "id": "004-style-catalog",
-        "title": "Style Catalog: UI Reference",
-        "description": "Uma biblioteca viva de componentes e estilos (Bento, Neumorfismo, Brutalismo) para guiar o design de novos posts.",
+        "id": "005-medmapa-produtividade",
+        "title": "A Ilusão da Quantidade: Qualidade vs Volume no R1",
+        "description": "Post de quebra de mitos sobre produtividade tóxica no estudo para residência.",
         "format": "1080x1350",
-        "slides": 10,
+        "slides": 5,
         "date": "2026-03-06",
         "tags": [
-            "referencia",
-            "ui",
-            "componentes",
-            "estilo"
+            "produtividade",
+            "estrategia",
+            "medmapa"
         ]
     }
 ]
