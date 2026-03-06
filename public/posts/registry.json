@@ -74,5 +74,32 @@
             "produtividade",
             "medmapa"
         ]
+    },
+    {
+        "id": "004-medmapa-sobrevivencia",
+        "title": "Guia de Sobrevivência: 1º Dia no Ambulatório",
+        "description": "Conteúdo de alto valor (salvamento) focado em estudantes iniciando o ciclo clínico.",
+        "format": "1080x1350",
+        "slides": 7,
+        "date": "2026-03-06",
+        "tags": [
+            "dicas",
+            "sobrevivencia",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "004-style-catalog",
+        "title": "Style Catalog: UI Reference",
+        "description": "Uma biblioteca viva de componentes e estilos (Bento, Neumorfismo, Brutalismo) para guiar o design de novos posts.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "referencia",
+            "ui",
+            "componentes",
+            "estilo"
+        ]
     }
 ]

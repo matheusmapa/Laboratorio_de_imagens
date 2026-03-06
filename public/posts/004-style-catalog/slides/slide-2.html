@@ -1,0 +1,101 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: #030612;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        color: white;
+    }
+
+    .title {
+        font-size: 80px;
+        font-weight: 900;
+        margin-bottom: 60px;
+        letter-spacing: -2px;
+    }
+
+    .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 250px 400px 250px;
+        gap: 24px;
+        flex: 1;
+    }
+
+    .item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 48px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .item-1 {
+        grid-column: span 1;
+    }
+
+    .item-2 {
+        grid-column: span 1;
+    }
+
+    .item-3 {
+        grid-column: span 2;
+        background: linear-gradient(135deg, #1e1b4b, #030612);
+    }
+
+    .item-4 {
+        grid-column: span 1;
+    }
+
+    .item-5 {
+        grid-column: span 1;
+    }
+
+    .item-label {
+        font-size: 20px;
+        font-weight: 800;
+        color: #3b82f6;
+        text-transform: uppercase;
+    }
+
+    .item-value {
+        font-size: 64px;
+        font-weight: 900;
+    }
+</style>
+
+<div class="slide">
+    <h1 class="title">Bento Grids</h1>
+
+    <div class="bento-grid">
+        <div class="item item-1">
+            <div class="item-label">Performance</div>
+            <div class="item-value">A+</div>
+        </div>
+        <div class="item item-2">
+            <div class="item-label">Foco</div>
+            <div class="item-value">Max</div>
+        </div>
+        <div class="item item-3">
+            <div class="item-label">Insight do Dia</div>
+            <div class="item-value" style="font-size: 48px;">Modularidade é a chave para o crescimento.</div>
+        </div>
+        <div class="item item-4">
+            <div class="item-label">Aula</div>
+            <div class="item-value">07</div>
+        </div>
+        <div class="item item-5">
+            <div class="item-label">Status</div>
+            <div class="item-value">Ok</div>
+        </div>
+    </div>
+</div>
