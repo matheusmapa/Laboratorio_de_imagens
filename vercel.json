@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+        {
+            "source": "/posts/:path*",
+            "destination": "/posts/:path*"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/posts/(.*).html",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=0, must-revalidate"
+                }
+            ]
+        }
+    ]
+}

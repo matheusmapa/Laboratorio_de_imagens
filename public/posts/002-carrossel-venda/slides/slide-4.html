@@ -1,0 +1,234 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: radial-gradient(120% 120% at 50% -20%, #0b152d 0%, #030612 100%);
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 100px 80px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        color: white;
+    }
+
+    .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: #fff;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        width: 100%;
+    }
+
+    .h2-title {
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -3px;
+        margin-top: 0;
+        margin-bottom: 60px;
+    }
+
+    .h2-title .dim {
+        color: #818cf8;
+        opacity: 0.8;
+    }
+
+    .grid-top {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .grid-bottom {
+        display: flex;
+        gap: 24px;
+        justify-content: center;
+    }
+
+    .card {
+        background: #0b1329;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 30px;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 290px;
+        box-sizing: border-box;
+    }
+
+    .icon-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 30px;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .icon-blue {
+        background: rgba(59, 130, 246, 0.2);
+    }
+
+    .icon-green {
+        background: rgba(16, 185, 129, 0.2);
+    }
+
+    .icon-yellow {
+        background: rgba(245, 158, 11, 0.2);
+    }
+
+    .icon-pink {
+        background: rgba(236, 72, 153, 0.2);
+    }
+
+    .icon-teal {
+        background: rgba(20, 184, 166, 0.2);
+    }
+
+    .card-title {
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .progress-bar {
+        display: flex;
+        gap: 12px;
+    }
+
+    .dash {
+        width: 38px;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .dash.active {
+        background: #3b82f6;
+    }
+
+    .swipe-hint {
+        font-size: 22px;
+        color: #64748b;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+
+<div class="slide">
+    <div class="logo-area">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z" />
+            <path d="M9 3v15" />
+            <path d="M15 6v15" />
+        </svg>
+        MedMapa
+    </div>
+
+    <div class="main-content">
+        <h2 class="h2-title">As Grandes Áreas da<br>Medicina. <span class="dim">Cobertas.</span></h2>
+
+        <div class="grid-top">
+            <div class="card">
+                <div class="icon-circle icon-blue">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3" />
+                        <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4" />
+                        <circle cx="20" cy="10" r="2" />
+                    </svg>
+                </div>
+                <div class="card-title">Clínica Médica</div>
+            </div>
+            <div class="card">
+                <div class="icon-circle icon-green">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="6" cy="6" r="3" />
+                        <circle cx="6" cy="18" r="3" />
+                        <line x1="20" x2="8.12" y1="4" y2="15.88" />
+                        <line x1="14.47" x2="20" y1="14.48" y2="20" />
+                        <line x1="8.12" x2="12" y1="8.12" y2="12" />
+                    </svg>
+                </div>
+                <div class="card-title">Cirurgia Geral</div>
+            </div>
+            <div class="card">
+                <div class="icon-circle icon-yellow">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 12h.01" />
+                        <path d="M15 12h.01" />
+                        <path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" />
+                        <path
+                            d="M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.1-2 2.5c-.8.3-1.5.4-1.5 1l.5 2.5 3.1-1.2c3.2-1.2 3.4-4 3.4-4Z" />
+                    </svg>
+                </div>
+                <div class="card-title">Pediatria</div>
+            </div>
+        </div>
+
+        <div class="grid-bottom">
+            <div class="card">
+                <div class="icon-circle icon-pink">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                    </svg>
+                </div>
+                <div class="card-title">Ginecologia<br>& Obst.</div>
+            </div>
+            <div class="card">
+                <div class="icon-circle icon-teal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <div class="card-title">Medicina<br>Preventiva</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="progress-bar">
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash active"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+        </div>
+        <div class="swipe-hint">Arrasta pro lado ➔</div>
+    </div>
+</div>

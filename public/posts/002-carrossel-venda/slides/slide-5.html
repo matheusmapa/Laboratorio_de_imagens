@@ -1,0 +1,240 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: radial-gradient(120% 120% at 50% -20%, #0b152d 0%, #030612 100%);
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 100px 80px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        color: white;
+    }
+
+    .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: #fff;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        width: 100%;
+    }
+
+    .h2-title {
+        font-size: 80px;
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -3px;
+        margin-top: 140px;
+        margin-bottom: 60px;
+    }
+
+    .h2-title .dim {
+        color: #818cf8;
+        opacity: 0.8;
+    }
+
+    .box {
+        background: #0b1329;
+        background: linear-gradient(180deg, rgba(16, 26, 48, 0.4) 0%, rgba(10, 16, 32, 0.4) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 40px;
+        padding: 70px 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 70px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .stat-left {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 320px;
+    }
+
+    .stat-num {
+        font-size: 64px;
+        font-weight: 900;
+        letter-spacing: -2px;
+    }
+
+    .stat-num.red {
+        color: #ef4444;
+    }
+
+    .stat-num.green {
+        color: #10b981;
+    }
+
+    .stat-label {
+        font-size: 24px;
+        color: #64748b;
+        font-weight: 500;
+    }
+
+    .stat-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .bar-bg {
+        width: 100%;
+        height: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .bar-fill {
+        height: 100%;
+        border-radius: 8px;
+    }
+
+    .bar-fill.red {
+        background: #ef4444;
+        width: 48%;
+    }
+
+    .bar-fill.green {
+        background: #10b981;
+        width: 92%;
+    }
+
+    .bar-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 19px;
+        font-weight: 700;
+        margin-top: 18px;
+    }
+
+    .meta-icon.red {
+        color: #ef4444;
+    }
+
+    .meta-icon.green {
+        color: #10b981;
+    }
+
+    .meta-val {
+        color: #fff;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .progress-bar {
+        display: flex;
+        gap: 12px;
+    }
+
+    .dash {
+        width: 38px;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .dash.active {
+        background: #3b82f6;
+    }
+
+    .swipe-hint {
+        font-size: 22px;
+        color: #64748b;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+</style>
+
+<div class="slide">
+    <div class="logo-area">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z" />
+            <path d="M9 3v15" />
+            <path d="M15 6v15" />
+        </svg>
+        MedMapa
+    </div>
+
+    <div class="main-content">
+        <h2 class="h2-title">O dado elimina<br><span class="dim">a insegurança.</span></h2>
+
+        <div class="box">
+            <div class="stat-row">
+                <div class="stat-left">
+                    <div class="stat-num red">48%</div>
+                    <div class="stat-label">Clínica Médica</div>
+                </div>
+                <div class="stat-right">
+                    <div class="bar-bg">
+                        <div class="bar-fill red"></div>
+                    </div>
+                    <div class="bar-meta">
+                        <span class="meta-icon red">⚠️ Ponto Crítico</span>
+                        <span class="meta-val">Média: 65%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-left">
+                    <div class="stat-num green">92%</div>
+                    <div class="stat-label">Pediatria</div>
+                </div>
+                <div class="stat-right">
+                    <div class="bar-bg">
+                        <div class="bar-fill green"></div>
+                    </div>
+                    <div class="bar-meta">
+                        <span class="meta-icon green">🔥 Pontos Fortes</span>
+                        <span class="meta-val">Dominada</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="progress-bar">
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+            <div class="dash active"></div>
+            <div class="dash"></div>
+            <div class="dash"></div>
+        </div>
+        <div class="swipe-hint">Arrasta pro lado ➔</div>
+    </div>
+</div>

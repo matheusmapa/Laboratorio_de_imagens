@@ -1,0 +1,26 @@
+[
+    {
+        "id": "001-post-exemplo",
+        "title": "Post de Exemplo",
+        "description": "Demonstra a estrutura completa de um post com exportação PNG funcional.",
+        "format": "1080x1350",
+        "slides": 3,
+        "date": "2026-03-04",
+        "tags": [
+            "exemplo",
+            "template"
+        ]
+    },
+    {
+        "id": "002-carrossel-venda",
+        "title": "Carrossel de Venda (MedMapa)",
+        "description": "Exemplo prático do ecossistema MedMapa em 7 slides modulares.",
+        "format": "1080x1350",
+        "slides": 7,
+        "date": "2026-03-05",
+        "tags": [
+            "venda",
+            "medmapa"
+        ]
+    }
+]
