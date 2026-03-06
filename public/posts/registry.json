@@ -12,6 +12,20 @@
         ]
     },
     {
+        "id": "003-design-expert",
+        "title": "Design Expert Showcase",
+        "description": "Demonstração de design avançado com assets gerados por IA, stickers 3D e efeitos de overlay.",
+        "format": "1080x1350",
+        "slides": 3,
+        "date": "2026-03-06",
+        "tags": [
+            "showcase",
+            "ia",
+            "sticker",
+            "design"
+        ]
+    },
+    {
         "id": "002-carrossel-venda",
         "title": "Carrossel de Venda (MedMapa)",
         "description": "Exemplo prático do ecossistema MedMapa em 7 slides modulares.",
@@ -20,6 +34,44 @@
         "date": "2026-03-05",
         "tags": [
             "venda",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "001-medmapa-manifesto",
+        "title": "A Medicina evoluiu. Você não?",
+        "description": "Manifesto do ecossistema MedMapa pra reta final do R1.",
+        "format": "1080x1350",
+        "slides": 5,
+        "date": "2026-03-06",
+        "tags": [
+            "venda",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "002-medmapa-comparativo",
+        "title": "Sua aprovação no R1 não precisa custar um carro zero.",
+        "description": "Comparativo de preço e valor do MedMapa contra cursinhos tradicionais.",
+        "format": "1080x1350",
+        "slides": 5,
+        "date": "2026-03-06",
+        "tags": [
+            "venda",
+            "comparativo",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "003-medmapa-rotina",
+        "title": "15 min livres no plantão = Aprovação",
+        "description": "Como transformar intervalos no internato em pontos na prova de residência.",
+        "format": "1080x1350",
+        "slides": 5,
+        "date": "2026-03-06",
+        "tags": [
+            "rotina",
+            "produtividade",
             "medmapa"
         ]
     }

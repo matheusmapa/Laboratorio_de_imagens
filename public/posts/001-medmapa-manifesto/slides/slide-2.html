@@ -1,0 +1,169 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide-wrapper {
+        width: 1080px;
+        height: 1350px;
+        background: linear-gradient(145deg, #080b14 0%, #111827 100%);
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 120px 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
+        color: white;
+        overflow: hidden;
+    }
+
+    .slide-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -30%;
+        width: 140%;
+        height: 140%;
+        background: radial-gradient(circle at 80% 30%, rgba(239, 68, 68, 0.08) 0%, transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .content-area {
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 70px;
+    }
+
+    .h2-title {
+        font-size: 72px;
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: -2px;
+        margin: 0;
+        text-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .h2-highlight {
+        color: #ef4444;
+        text-shadow: 0 0 40px rgba(239, 68, 68, 0.4);
+    }
+
+    .list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 35px;
+    }
+
+    .list-item {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 32px;
+        padding: 45px;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 2px 20px rgba(255, 255, 255, 0.02);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .list-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.3), transparent);
+    }
+
+    .icon-box {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .icon-box svg {
+        color: #ef4444;
+        width: 40px;
+        height: 40px;
+        stroke-width: 3;
+        filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.6));
+    }
+
+    .item-text {
+        font-size: 28px;
+        font-weight: 500;
+        color: #e2e8f0;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .item-bold {
+        font-weight: 800;
+        color: #fff;
+    }
+</style>
+
+<div class="slide-wrapper">
+    <div class="content-area">
+        <h2 class="h2-title">O método tradicional tá <span class="h2-highlight">esgotando você</span> (e não tá
+            funcionando).</h2>
+
+        <div class="list-container">
+            <div class="list-item">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </div>
+                <div class="item-text">Perder horas <span class="item-bold">lendo PDFs</span> de cursinho que você nunca
+                    mais vai lembrar.</div>
+            </div>
+
+            <div class="list-item">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </div>
+                <div class="item-text"><span class="item-bold">Dar aquele branco</span> clássico na frente do preceptor
+                    no plantão.</div>
+            </div>
+
+            <div class="list-item">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </div>
+                <div class="item-text">Fazer milhares de questões no automático e <span class="item-bold">continuar
+                        errando bobeira</span>.</div>
+            </div>
+
+            <div class="list-item">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </div>
+                <div class="item-text">Ir pra prova rezando pra não cair <span class="item-bold">aquela matéria que você
+                        odeia</span>.</div>
+            </div>
+        </div>
+    </div>
+</div>
