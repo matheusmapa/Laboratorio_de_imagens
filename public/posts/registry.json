@@ -142,5 +142,60 @@
             "estrategia",
             "medmapa"
         ]
+    },
+    {
+        "id": "007-medmapa-story-funil",
+        "title": "Story Funil: Conversão Reta Final",
+        "description": "Sequência de 3 stories em 1080x1920 com elementos interativos (enquete, link) simulados em CSS.",
+        "format": "1080x1920",
+        "slides": 3,
+        "date": "2026-03-06",
+        "tags": [
+            "story",
+            "venda",
+            "interativo",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "008-medmapa-mag",
+        "title": "Manifesto v2: Design Editorial",
+        "description": "Releitura do manifesto com estética MAG (Minimalista), Swiss Grid e Bento Grid em fundo off-white.",
+        "format": "1080x1350",
+        "slides": 5,
+        "date": "2026-03-06",
+        "tags": [
+            "editorial",
+            "bento",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "010-medmapa-light-premium",
+        "title": "Manifesto: Light Premium",
+        "description": "Design editorial sofisticado estilo Apple/Stripe. Fundo claro, orbes de luz e glassmorphism suave.",
+        "format": "1080x1350",
+        "slides": 5,
+        "date": "2026-03-06",
+        "tags": [
+            "light-mode",
+            "premium",
+            "apple-style",
+            "medmapa"
+        ]
+    },
+    {
+        "id": "008-medmapa-story-single",
+        "title": "Plantão puxado? Hackeia tua rotina.",
+        "description": "Story único no padrão Light Premium com glassmorphism, orbes e fake link sticker.",
+        "format": "1080x1920",
+        "slides": 1,
+        "date": "2026-03-10",
+        "tags": [
+            "story",
+            "light-mode",
+            "premium",
+            "medmapa"
+        ]
     }
 ]

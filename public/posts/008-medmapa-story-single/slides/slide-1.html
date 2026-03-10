@@ -1,0 +1,204 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .story {
+        width: 1080px;
+        height: 1920px;
+        position: relative;
+        overflow: hidden;
+        background: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 80px 60px;
+        box-sizing: border-box;
+    }
+
+    /* === ORBES DE FUNDO === */
+    .orb-blue {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: #dbeafe;
+        border-radius: 50%;
+        top: -150px;
+        left: -200px;
+        filter: blur(150px);
+        z-index: 0;
+    }
+
+    .orb-green {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: #d1fae5;
+        border-radius: 50%;
+        bottom: -100px;
+        right: -150px;
+        filter: blur(150px);
+        z-index: 0;
+    }
+
+    /* === LOGO TOPO === */
+    .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        z-index: 10;
+    }
+
+    .logo-area svg {
+        color: #1e293b;
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.08));
+    }
+
+    .logo-text {
+        font-size: 36px;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -1px;
+    }
+
+    /* === GLASSMORPHISM CARD === */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.06);
+        border-radius: 40px;
+        padding: 64px;
+        width: 100%;
+        max-width: 920px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+    }
+
+    .bell-icon {
+        width: 64px;
+        height: 64px;
+        background: rgba(30, 41, 59, 0.06);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bell-icon svg {
+        color: #1e293b;
+    }
+
+    .card-tag {
+        font-size: 18px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+    }
+
+    .card-headline {
+        font-size: 72px;
+        font-weight: 900;
+        color: #0f172a;
+        line-height: 1.05;
+        letter-spacing: -3px;
+        margin: 0;
+    }
+
+    .card-body {
+        font-size: 30px;
+        font-weight: 500;
+        color: #475569;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .cta-button {
+        background: #10B981;
+        color: #fff;
+        font-size: 28px;
+        font-weight: 800;
+        padding: 28px 48px;
+        border-radius: 100px;
+        text-align: center;
+        width: 100%;
+        box-shadow: 0 16px 32px rgba(16, 185, 129, 0.3);
+        margin-top: 16px;
+        box-sizing: border-box;
+    }
+
+    /* === LINK STICKER (FAKE) === */
+    .link-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        z-index: 10;
+    }
+
+    .tap-hint {
+        font-size: 20px;
+        font-weight: 600;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .link-pill {
+        background: #fff;
+        padding: 18px 40px;
+        border-radius: 100px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e293b;
+    }
+</style>
+
+<div class="story">
+    <!-- Orbes de Fundo -->
+    <div class="orb-blue"></div>
+    <div class="orb-green"></div>
+
+    <!-- Logo MedMapa -->
+    <div class="logo-area">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z" />
+            <path d="M9 3v15" />
+            <path d="M15 6v15" />
+        </svg>
+        <span class="logo-text">MedMapa</span>
+    </div>
+
+    <!-- Card Central (Glassmorphism) -->
+    <div class="glass-card">
+        <div class="bell-icon">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+        </div>
+        <div class="card-tag">Lembrete do Sistema</div>
+        <h1 class="card-headline">Plantão puxado hoje?</h1>
+        <p class="card-body">15 minutos livres valem mais que 2 horas de PDF se você tiver a estratégia certa. Não deixe
+            o cansaço sabotar o seu R1.</p>
+        <div class="cta-button">Hackear minha rotina em 10 questões</div>
+    </div>
+
+    <!-- Fake Link Sticker -->
+    <div class="link-area">
+        <div class="tap-hint">↑ Toque para acessar</div>
+        <div class="link-pill">🔗 medmapa.com.br</div>
+    </div>
+</div>

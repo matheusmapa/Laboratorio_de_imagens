@@ -1,0 +1,102 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@900&display=swap');
+
+    .slide-wrapper {
+        width: 1080px;
+        height: 1350px;
+        background: #000;
+        font-family: 'Space Mono', monospace;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+    }
+
+    /* Hypnotic Geometric Pattern */
+    .bg-pattern {
+        position: absolute;
+        inset: -50%;
+        background-image:
+            repeating-conic-gradient(#00ffff 0% 1%, #000 1% 2%);
+        opacity: 0.1;
+        z-index: 0;
+        animation: rotate 60s infinite linear;
+    }
+
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .logo-container {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .logo-icon-desconstructed {
+        font-size: 150px;
+        color: #00ffff;
+        filter: drop-shadow(0 0 50px rgba(0, 255, 255, 0.8));
+        transform: rotate(15deg) scaleX(-1);
+        margin-bottom: 20px;
+    }
+
+    .headline {
+        font-size: 72px;
+        font-weight: 900;
+        text-align: center;
+        max-width: 900px;
+        line-height: 1;
+        font-family: 'Inter', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: -2px;
+    }
+
+    .highlight {
+        color: #ff00ff;
+        text-shadow: 0 0 20px #ff00ff;
+    }
+
+    .body-text {
+        font-size: 32px;
+        max-width: 800px;
+        text-align: center;
+        line-height: 1.5;
+        margin-top: 50px;
+        color: #ccc;
+    }
+</style>
+
+<div class="slide-wrapper">
+    <div class="bg-pattern"></div>
+
+    <div class="logo-container">
+        <div class="logo-icon-desconstructed">
+            <svg width="180" height="180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z" />
+                <path d="M9 3v15" />
+                <path d="M15 6v15" />
+            </svg>
+        </div>
+
+        <h1 class="headline">Nós não criamos um app.<br>Nós <span class="highlight">HACKEAMOS</span> o sistema.</h1>
+
+        <p class="body-text">
+            Bem-vindo ao <b>MedMapa</b>. O ecossistema de alta performance pra quem foca no R1. Desenhado pra realidade
+            caótica de quem precisa fazer o tempo render, <b>direto ao ponto</b>.
+        </p>
+    </div>
+</div>

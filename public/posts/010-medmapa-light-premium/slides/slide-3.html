@@ -1,0 +1,114 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide-wrapper {
+        width: 1080px;
+        height: 1350px;
+        background: #F5F5F7;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 100px;
+        box-sizing: border-box;
+        color: #000;
+    }
+
+    .orb-glow {
+        position: absolute;
+        width: 1200px;
+        height: 1200px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 65%);
+        z-index: 0;
+        filter: blur(100px);
+    }
+
+    .glass-reveal-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        border-radius: 60px;
+        padding: 80px 64px;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 48px;
+        z-index: 10;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08), inset 0 2px 30px rgba(255, 255, 255, 0.5);
+    }
+
+    .h2-title {
+        font-size: 64px;
+        font-weight: 950;
+        line-height: 1.1;
+        letter-spacing: -3px;
+        margin-bottom: 48px;
+    }
+
+    .h2-title b {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    .body-text {
+        font-size: 38px;
+        font-weight: 500;
+        color: #3F3F46;
+        line-height: 1.5;
+        letter-spacing: -1px;
+    }
+
+    .body-text b {
+        color: #000;
+        font-weight: 800;
+    }
+
+    .logo-reveal {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-weight: 900;
+        font-size: 42px;
+        letter-spacing: -2px;
+    }
+
+    .logo-reveal svg {
+        color: #3b82f6;
+    }
+</style>
+
+<div class="slide-wrapper">
+    <div class="orb-glow"></div>
+
+    <div class="glass-reveal-card">
+        <h2 class="h2-title">Nós não criamos só um app.<br><b>Nós hackeamos o formato.</b></h2>
+
+        <p class="body-text">
+            O jogo vira quando você para de ler o rodapé do livro e foca na resolução do problema.
+        </p>
+
+        <div class="logo-reveal">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z" />
+                <path d="M9 3v15" />
+                <path d="M15 6v15" />
+            </svg>
+            MedMapa
+        </div>
+
+        <p class="body-text" style="font-size: 32px; opacity: 0.8; margin-top: -30px;">
+            O ecossistema completo de alta performance desenhado pra realidade caótica de quem precisa fazer o tempo
+            render.
+        </p>
+    </div>
+</div>
