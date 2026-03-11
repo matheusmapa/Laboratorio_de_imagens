@@ -11,21 +11,24 @@
         box-sizing: border-box;
     }
 
+    /* === ZONAS SEGURAS ABSOLUTAS === */
     .safe-zone {
         position: absolute;
-        top: 200px;
-        bottom: 250px;
+        top: 0;
         left: 0;
         right: 0;
+        bottom: 0;
+        padding-top: 200px;
+        padding-bottom: 250px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 0 60px;
         z-index: 10;
         box-sizing: border-box;
     }
 
+    /* === ORBES PREMIUM CORRIGIDAS (BLUR 150px) === */
     .orb-cyan {
         position: absolute;
         width: 800px;
@@ -34,7 +37,7 @@
         border-radius: 50%;
         top: 15%;
         left: -200px;
-        filter: blur(130px);
+        filter: blur(150px);
         z-index: 0;
     }
 
@@ -46,7 +49,7 @@
         border-radius: 50%;
         top: 40%;
         right: -150px;
-        filter: blur(130px);
+        filter: blur(150px);
         z-index: 0;
     }
 
@@ -58,26 +61,26 @@
         border-radius: 50%;
         bottom: 10%;
         left: 100px;
-        filter: blur(130px);
+        filter: blur(150px);
         z-index: 0;
     }
 
     /* === GLASSMORPHISM REAL === */
     .glass-card {
         background: rgba(255, 255, 255, 0.45);
-        backdrop-filter: blur(32px);
-        -webkit-backdrop-filter: blur(32px);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
         border: 1px solid rgba(255, 255, 255, 0.8);
         box-shadow: 0 40px 80px rgba(0,0,0,0.06);
         padding: 80px 60px;
         border-radius: 48px;
-        width: 100%;
-        max-width: 900px;
+        width: 90%;
+        margin: 0 auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 40px;
+        box-sizing: border-box;
     }
 
     .icon-box {
@@ -88,6 +91,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-bottom: 40px;
     }
 
     .icon-box svg {
@@ -97,21 +101,15 @@
     }
 
     .headline {
-        font-size: 130px;
+        font-size: 140px; /* Imenso mas sem tocar os cantos (90% width protege) */
         font-weight: 900;
         color: #000000;
-        line-height: 0.95;
-        letter-spacing: -4px;
+        line-height: 0.85; /* Reduzido para ficar compacto */
+        letter-spacing: -6px; /* Letras super apertadas */
         margin: 0;
         text-transform: uppercase;
-    }
-
-    .card-text {
-        font-size: 36px;
-        font-weight: 500;
-        color: #334155;
-        line-height: 1.5;
-        margin: 0;
+        width: 100%;
+        word-break: break-word; /* Previne overflow */
     }
 </style>
 
@@ -123,14 +121,13 @@
     <div class="safe-zone">
         <div class="glass-card">
             <div class="icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 6 6 18" />
-                    <path d="m6 6 12 12" />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </div>
             
-            <h2 class="headline">VOLUME NÃO É ESTRATÉGIA.</h2>
-            <p class="card-text">O sistema tradicional te empurra milhares de aulas longas pra justificar a mensalidade cara. O que aprova é a resolução de problemas.</p>
+            <h2 class="headline">VOLUME<br>NÃO É<br>ESTRATÉGIA.</h2>
         </div>
     </div>
 </div>
