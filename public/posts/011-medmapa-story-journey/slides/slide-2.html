@@ -1,0 +1,135 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .story {
+        width: 1080px;
+        height: 1920px;
+        position: relative;
+        overflow: hidden;
+        background: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    .safe-zone {
+        position: absolute;
+        top: 200px;
+        bottom: 250px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 60px;
+        z-index: 10;
+        box-sizing: border-box;
+    }
+
+    .orb-cyan {
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        background: #cffafe;
+        border-radius: 50%;
+        top: 15%;
+        left: -200px;
+        filter: blur(130px);
+        z-index: 0;
+    }
+
+    .orb-magenta {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: #fbcfe8;
+        border-radius: 50%;
+        top: 40%;
+        right: -150px;
+        filter: blur(130px);
+        z-index: 0;
+    }
+
+    .orb-mint {
+        position: absolute;
+        width: 900px;
+        height: 900px;
+        background: #d1fae5;
+        border-radius: 50%;
+        bottom: 10%;
+        left: 100px;
+        filter: blur(130px);
+        z-index: 0;
+    }
+
+    /* === GLASSMORPHISM REAL === */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(32px);
+        -webkit-backdrop-filter: blur(32px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+        padding: 80px 60px;
+        border-radius: 48px;
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .icon-box {
+        width: 100px;
+        height: 100px;
+        background: rgba(239, 68, 68, 0.1);
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .icon-box svg {
+        color: #ef4444;
+        width: 48px;
+        height: 48px;
+    }
+
+    .headline {
+        font-size: 90px;
+        font-weight: 900;
+        color: #000000;
+        line-height: 1.05;
+        letter-spacing: -3px;
+        margin: 0;
+    }
+
+    .card-text {
+        font-size: 36px;
+        font-weight: 500;
+        color: #334155;
+        line-height: 1.5;
+        margin: 0;
+    }
+</style>
+
+<div class="story">
+    <div class="orb-cyan"></div>
+    <div class="orb-magenta"></div>
+    <div class="orb-mint"></div>
+
+    <div class="safe-zone">
+        <div class="glass-card">
+            <div class="icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+            </div>
+            
+            <h2 class="headline">Volume não é estratégia.</h2>
+            <p class="card-text">O sistema tradicional te empurra milhares de aulas longas pra justificar a mensalidade cara. O que aprova é a resolução de problemas.</p>
+        </div>
+    </div>
+</div>

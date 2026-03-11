@@ -12,6 +12,35 @@
         ]
     },
     {
+        "id": "011-medmapa-story-journey",
+        "title": "A Jornada: Tour de 6 Stories",
+        "description": "Narrativa agressiva de conversão respeitando as Safe Zones do Instagram. Inclui placeholders para prints e sticker de link.",
+        "format": "1080x1920",
+        "slides": 6,
+        "date": "2026-03-11",
+        "tags": [
+            "story",
+            "journey",
+            "safe-zone",
+            "premium"
+        ]
+    },
+    {
+        "id": "009-medmapa-story-tour",
+        "title": "Tour Oficial: MedMapa",
+        "description": "Apresentação de produto em 4 stories conectadas. Estilo Light Premium com glassmorphism e orbes.",
+        "format": "1080x1920",
+        "slides": 4,
+        "date": "2026-03-10",
+        "tags": [
+            "story",
+            "tour",
+            "light-mode",
+            "premium",
+            "medmapa"
+        ]
+    },
+    {
         "id": "004-style-catalog",
         "title": "Style Catalog: UI Reference",
         "description": "Uma biblioteca viva de componentes e estilos (Bento, Neumorfismo, Brutalismo) para guiar o design de novos posts.",
