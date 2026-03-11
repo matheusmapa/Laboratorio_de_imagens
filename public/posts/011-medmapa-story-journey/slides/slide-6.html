@@ -11,6 +11,7 @@
         box-sizing: border-box;
     }
 
+    /* === REPOSICIONAMENTO PARA CIMA === */
     .safe-zone {
         position: absolute;
         top: 200px;
@@ -20,8 +21,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding: 0 60px;
+        justify-content: flex-start;
+        padding: 40px 60px 0;
         z-index: 10;
         box-sizing: border-box;
     }
@@ -69,7 +70,7 @@
         -webkit-backdrop-filter: blur(32px);
         border: 1px solid rgba(255, 255, 255, 0.8);
         box-shadow: 0 40px 80px rgba(0,0,0,0.06);
-        padding: 80px 60px;
+        padding: 60px;
         border-radius: 48px;
         width: 100%;
         max-width: 900px;
@@ -77,7 +78,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 40px;
+        gap: 24px; /* GAP REDUZIDO: Agrupamento do texto */
     }
 
     .headline {
@@ -87,6 +88,7 @@
         line-height: 1.05;
         letter-spacing: -3px;
         margin: 0;
+        margin-bottom: -10px; /* Juntando com os bullets */
     }
 
     .bullet-points {
@@ -106,14 +108,14 @@
         flex-direction: column;
         align-items: center;
         gap: 16px;
-        margin-top: 24px;
+        margin-top: 32px;
         width: 100%;
     }
 
     .link-placeholder {
         width: 100%;
         max-width: 600px;
-        padding: 32px 48px;
+        padding: 40px 48px;
         background: rgba(16, 185, 129, 0.05);
         border: 3px dashed #10B981;
         border-radius: 100px;
@@ -124,18 +126,6 @@
         font-size: 26px;
         font-weight: 800;
         box-sizing: border-box;
-    }
-
-    .arrow-icon {
-        color: #10B981;
-        width: 32px;
-        height: 32px;
-        animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(10px); }
     }
 </style>
 
@@ -158,10 +148,6 @@
             </div>
             
             <div class="link-placeholder-container">
-                <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 5v14" />
-                    <path d="m19 12-7 7-7-7" />
-                </svg>
                 <div class="link-placeholder">
                     <span>🔗 [ COLE O ADESIVO DE LINK AQUI ]</span>
                 </div>
