@@ -28,7 +28,7 @@
         box-sizing: border-box;
     }
 
-    /* === ORBES PREMIUM CORRIGIDAS (BLUR 150px) === */
+    /* === ORBES PREMIUM CORRIGIDAS === */
     .orb-cyan {
         position: absolute;
         width: 800px;
@@ -81,6 +81,7 @@
         align-items: center;
         text-align: center;
         box-sizing: border-box;
+        gap: 40px;
     }
 
     .icon-box {
@@ -91,7 +92,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 40px;
     }
 
     .icon-box svg {
@@ -101,15 +101,23 @@
     }
 
     .headline {
-        font-size: 140px; /* Imenso mas sem tocar os cantos (90% width protege) */
+        font-size: 90px;
         font-weight: 900;
         color: #000000;
-        line-height: 0.85; /* Reduzido para ficar compacto */
-        letter-spacing: -6px; /* Letras super apertadas */
+        line-height: 0.95;
+        letter-spacing: -4px;
         margin: 0;
         text-transform: uppercase;
         width: 100%;
-        word-break: break-word; /* Previne overflow */
+    }
+
+    .card-text {
+        font-size: 36px;
+        font-weight: 500;
+        color: #334155;
+        line-height: 1.5;
+        margin: 0;
+        width: 95%;
     }
 </style>
 
@@ -127,7 +135,8 @@
                 </svg>
             </div>
             
-            <h2 class="headline">VOLUME<br>NÃO É<br>ESTRATÉGIA.</h2>
+            <h2 class="headline">VOLUME NÃO É ESTRATÉGIA.</h2>
+            <p class="card-text">O sistema tradicional te empurra milhares de aulas longas pra justificar a mensalidade cara. O que aprova é a resolução de problemas.</p>
         </div>
     </div>
 </div>
