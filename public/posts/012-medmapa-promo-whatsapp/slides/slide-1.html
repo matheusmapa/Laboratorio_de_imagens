@@ -3,30 +3,15 @@
 
     .story {
         width: 1080px;
-        height: 1080px; /* QUADRADO PERFEITO */
+        height: 1080px;
         position: relative;
         overflow: hidden;
-        background: #f8fafc;
+        background: #f8fafc; /* Fundo off-white */
         font-family: 'Inter', sans-serif;
         box-sizing: border-box;
     }
 
-    /* === MÁSCARA DA FOTO EDITORIAL (CAMINHOS ABSOLUTOS) === */
-    .bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('/posts/012-medmapa-promo-whatsapp/bg.png');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.95;
-        z-index: 1;
-        mix-blend-mode: multiply; /* Conserva textura enquanto mescla ao off-white */
-    }
-
-    /* === ORBES PREMIUM DE LUZ === */
+    /* === ORBES PREMIUM DE LUZ (150px Blur) === */
     .orb-cyan {
         position: absolute;
         width: 600px;
@@ -36,8 +21,21 @@
         top: -100px;
         left: -100px;
         filter: blur(150px);
-        z-index: 2;
-        opacity: 0.8;
+        z-index: 1;
+        opacity: 0.9;
+    }
+
+    .orb-magenta {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: #fbcfe8;
+        border-radius: 50%;
+        bottom: -100px;
+        right: -100px;
+        filter: blur(150px);
+        z-index: 1;
+        opacity: 0.9;
     }
 
     .orb-mint {
@@ -46,120 +44,329 @@
         height: 700px;
         background: #d1fae5;
         border-radius: 50%;
-        bottom: -150px;
-        right: -100px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         filter: blur(150px);
-        z-index: 2;
-        opacity: 0.8;
+        z-index: 1;
+        opacity: 0.7;
     }
 
-    /* === CONTEÚDO CENTRAL (Direita) === */
-    .content-layer {
+    /* === ZONAS SEGURAS ABSOLUTAS E LAYOUT === */
+    .safe-zone {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
+        right: 0;
+        bottom: 0;
+        padding-top: 60px; /* Respiro gentil no topo */
+        padding-bottom: 250px; /* Safe Zone obrigatória do WhatsApp (Reply area) */
+        padding-left: 60px;
+        padding-right: 60px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: flex-end; /* Card à direita */
-        padding: 80px;
+        justify-content: flex-start;
+        z-index: 10;
         box-sizing: border-box;
+        gap: 24px; /* Ritmo vertical entre as zonas */
     }
 
-    /* === GLASSMORPHISM REAL (Card Preço) === */
-    .glass-card {
-        background: rgba(255, 255, 255, 0.55);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 40px 80px rgba(0,0,0,0.06);
-        padding: 50px 80px;
-        border-radius: 48px;
+    /* === HEADER E FOOTER PADRÃO === */
+    .brand-header {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-right: 20px; /* Posicionamento elegante à direita */
+        gap: 12px;
+        margin-bottom: 10px;
+        color: #0f172a;
     }
 
-    .price-text {
-        font-family: 'Inter', sans-serif;
-        font-size: 84px;
-        font-weight: 900;
-        color: #000000;
-        line-height: 1;
-        letter-spacing: -3px;
+    .brand-header .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-header .brand-text {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -1px;
         margin: 0;
     }
 
-    /* === TEXTO MÍNIMO: CANTO SUPERIOR ESQUERDO === */
-    .header-info {
+    .footer-absolute {
         position: absolute;
-        top: 60px;
-        left: 60px;
-        z-index: 20;
+        bottom: 60px; /* Bem lá no rodapé, usando a safe zone */
+        left: 0;
+        right: 0;
         display: flex;
         align-items: center;
-        gap: 16px;
+        justify-content: center;
+        gap: 12px;
+        color: #334155; /* Preto chumbo */
+        z-index: 20;
     }
 
-    .logo-icon {
+    .footer-absolute .logo-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .footer-absolute .url-text {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin: 0;
+    }
+
+    /* === GLASSMORPHISM BASE === */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.06), inset 0 0 0 1px rgba(255,255,255,0.4);
+        border-radius: 40px;
+        box-sizing: border-box;
+    }
+
+    /* === ZONE 1: TOP SECTION (ESTUDO INTELIGENTE) === */
+    .zone-1 {
+        width: 100%;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .z1-headline {
+        font-size: 56px;
+        font-weight: 900;
+        color: #000000;
+        letter-spacing: -2px;
+        margin: 0 0 8px 0;
+        text-transform: uppercase;
+    }
+
+    .z1-copy {
+        font-size: 24px;
+        font-weight: 600;
+        color: #334155; /* Cinza chumbo leve */
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* === ZONE 2: MIDDLE SECTION (2 COLUNAS) === */
+    .zone-2-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        width: 100%;
+    }
+
+    .zone-2-card {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative; /* Para esconder pseudo-orbes se necessário, mas o background vai resolver */
+    }
+
+    /* Orbes contidas nas colunas */
+    .col-cyan-bg {
+        background: linear-gradient(135deg, rgba(207, 250, 254, 0.4) 0%, rgba(255,255,255,0.6) 100%);
+    }
+    .col-magenta-bg {
+        background: linear-gradient(135deg, rgba(251, 207, 232, 0.4) 0%, rgba(255,255,255,0.6) 100%);
+    }
+
+    .z2-icon {
         width: 48px;
         height: 48px;
         color: #0f172a;
+        margin-bottom: 24px;
     }
 
-    .url-text {
+    .z2-headline {
+        font-size: 32px;
+        font-weight: 800;
+        color: #000000;
+        line-height: 1.2;
+        margin: 0 0 24px 0;
+        text-transform: uppercase;
+    }
+
+    .z2-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .z2-list-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    .check-icon {
+        width: 24px;
+        height: 24px;
+        color: #10B981;
+    }
+
+    /* === ZONE 3: BOTTOM SECTION (OFERTA) === */
+    .zone-3 {
+        width: 100%;
+        padding: 0; /* Padding especial gerido pelos filhos */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; /* Para o bloco verde do rodapé arredondar */
+    }
+
+    .z3-top {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(to bottom, rgba(209, 250, 229, 0.3), transparent); /* Orbe verde interna super sutil */
+    }
+
+    .price-headline {
+        font-size: 72px;
+        font-weight: 900;
+        color: #000000;
+        letter-spacing: -3px;
+        margin: 0 0 16px 0;
+    }
+
+    .price-bullets {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
         font-size: 24px;
-        font-weight: 800;
-        color: #0f172a;
-        letter-spacing: 2px;
-        margin: 0;
-        padding-top: 4px; /* Alinhamento óptico */
+        font-weight: 700;
+        color: #334155;
     }
 
-    /* === TEXTO MÍNIMO: CANTO INFERIOR DIREITO === */
-    .footer-coupon {
-        position: absolute;
-        bottom: 60px;
-        right: 60px;
-        z-index: 20;
-        font-size: 28px;
-        font-weight: 800;
-        color: #334155; /* Preto chumbo */
-        letter-spacing: 3px;
+    .z3-bottom {
+        background: #10B981;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .coupon-solid-text {
+        font-size: 32px;
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: 4px;
+        text-transform: uppercase;
         margin: 0;
     }
 </style>
 
 <div class="story">
-    <!-- Camada de Fundo: Imagem Macro Editada -->
-    <div class="bg-image"></div>
-    
-    <!-- Camada de Iluminação: Orbes Suaves -->
+    <!-- Camada de Iluminação: Orbes Suaves Globais -->
     <div class="orb-cyan"></div>
+    <div class="orb-magenta"></div>
     <div class="orb-mint"></div>
 
-    <!-- Texto Canto Superior Esquerdo -->
-    <div class="header-info">
-        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="safe-zone">
+        
+        <!-- Header -->
+        <div class="brand-header">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                <line x1="9" y1="3" x2="9" y2="18"></line>
+                <line x1="15" y1="6" x2="15" y2="21"></line>
+            </svg>
+            <p class="brand-text">MedMapa</p>
+        </div>
+
+        <!-- ZONE 1: Full-Width Header -->
+        <div class="glass-card zone-1">
+            <h1 class="z1-headline">ESTUDO INTELIGENTE.</h1>
+            <p class="z1-copy">FOCO NO PADRÃO DAS GRANDES BANCAS.</p>
+        </div>
+
+        <!-- ZONE 2: 2 Column Features -->
+        <div class="zone-2-grid">
+            
+            <!-- Coluna 1: Metodologia -->
+            <div class="glass-card zone-2-card col-cyan-bg">
+                <svg class="z2-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <h2 class="z2-headline">QUESTÕES<br>COMENTADAS.</h2>
+                <div class="z2-list">
+                    <div class="z2-list-item">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Foco no Padrão
+                    </div>
+                    <div class="z2-list-item">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        ENARE, USP, SUS
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Ferramenta (Cérebro) -->
+            <div class="glass-card zone-2-card col-magenta-bg">
+                <svg class="z2-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+                    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+                </svg>
+                <h2 class="z2-headline">CADERNO DE ERROS<br>AUTOMÁTICO.</h2>
+                <div class="z2-list">
+                    <div class="z2-list-item">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Gestão Inteligente
+                    </div>
+                    <div class="z2-list-item">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        Revisão Personalizada
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ZONE 3: Bottom Offer -->
+        <div class="glass-card zone-3">
+            <div class="z3-top">
+                <h1 class="price-headline">R$ 19,90/mês</h1>
+                <div class="price-bullets">
+                    <span>Acesso Completo</span>
+                    <span style="color: #cbd5e1;">•</span>
+                    <span>Garantia de 7 Dias</span>
+                </div>
+            </div>
+            <div class="z3-bottom">
+                <p class="coupon-solid-text">CUPOM: LETICIAUNIFENAS10</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Minimalist Footer (Relative to bottom screen edge) -->
+    <div class="footer-absolute">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
             <line x1="9" y1="3" x2="9" y2="18"></line>
             <line x1="15" y1="6" x2="15" y2="21"></line>
         </svg>
-        <p class="url-text">MEDMAPA.COM.BR/PLANOS</p>
+        <p class="url-text">medmapa.com.br/planos</p>
     </div>
-
-    <!-- Camada de Conteúdo Central -->
-    <div class="content-layer">
-        <!-- O Elemento de Solução (Valor) Flutuando à direita -->
-        <div class="glass-card">
-            <h1 class="price-text">R$ 19,90/mês</h1>
-        </div>
-    </div>
-
-    <!-- Texto Canto Inferior Direito (Cupom Absoluto) -->
-    <p class="footer-coupon">CUPOM: LETICIAUNIFENAS10</p>
 
 </div>
