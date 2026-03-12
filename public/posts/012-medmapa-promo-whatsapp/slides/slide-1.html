@@ -1,0 +1,165 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .story {
+        width: 1080px;
+        height: 1080px; /* QUADRADO PERFEITO */
+        position: relative;
+        overflow: hidden;
+        background: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* === MÁSCARA DA FOTO EDITORIAL (CAMINHOS ABSOLUTOS) === */
+    .bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/posts/012-medmapa-promo-whatsapp/bg.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.95;
+        z-index: 1;
+        mix-blend-mode: multiply; /* Conserva textura enquanto mescla ao off-white */
+    }
+
+    /* === ORBES PREMIUM DE LUZ === */
+    .orb-cyan {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: #cffafe;
+        border-radius: 50%;
+        top: -100px;
+        left: -100px;
+        filter: blur(150px);
+        z-index: 2;
+        opacity: 0.8;
+    }
+
+    .orb-mint {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        background: #d1fae5;
+        border-radius: 50%;
+        bottom: -150px;
+        right: -100px;
+        filter: blur(150px);
+        z-index: 2;
+        opacity: 0.8;
+    }
+
+    /* === CONTEÚDO CENTRAL (Direita) === */
+    .content-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; /* Card à direita */
+        padding: 80px;
+        box-sizing: border-box;
+    }
+
+    /* === GLASSMORPHISM REAL (Card Preço) === */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.06);
+        padding: 50px 80px;
+        border-radius: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px; /* Posicionamento elegante à direita */
+    }
+
+    .price-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 84px;
+        font-weight: 900;
+        color: #000000;
+        line-height: 1;
+        letter-spacing: -3px;
+        margin: 0;
+    }
+
+    /* === TEXTO MÍNIMO: CANTO SUPERIOR ESQUERDO === */
+    .header-info {
+        position: absolute;
+        top: 60px;
+        left: 60px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .logo-icon {
+        width: 48px;
+        height: 48px;
+        color: #0f172a;
+    }
+
+    .url-text {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: 2px;
+        margin: 0;
+        padding-top: 4px; /* Alinhamento óptico */
+    }
+
+    /* === TEXTO MÍNIMO: CANTO INFERIOR DIREITO === */
+    .footer-coupon {
+        position: absolute;
+        bottom: 60px;
+        right: 60px;
+        z-index: 20;
+        font-size: 28px;
+        font-weight: 800;
+        color: #334155; /* Preto chumbo */
+        letter-spacing: 3px;
+        margin: 0;
+    }
+</style>
+
+<div class="story">
+    <!-- Camada de Fundo: Imagem Macro Editada -->
+    <div class="bg-image"></div>
+    
+    <!-- Camada de Iluminação: Orbes Suaves -->
+    <div class="orb-cyan"></div>
+    <div class="orb-mint"></div>
+
+    <!-- Texto Canto Superior Esquerdo -->
+    <div class="header-info">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+            <line x1="9" y1="3" x2="9" y2="18"></line>
+            <line x1="15" y1="6" x2="15" y2="21"></line>
+        </svg>
+        <p class="url-text">MEDMAPA.COM.BR/PLANOS</p>
+    </div>
+
+    <!-- Camada de Conteúdo Central -->
+    <div class="content-layer">
+        <!-- O Elemento de Solução (Valor) Flutuando à direita -->
+        <div class="glass-card">
+            <h1 class="price-text">R$ 19,90/mês</h1>
+        </div>
+    </div>
+
+    <!-- Texto Canto Inferior Direito (Cupom Absoluto) -->
+    <p class="footer-coupon">CUPOM: LETICIAUNIFENAS10</p>
+
+</div>
