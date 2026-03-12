@@ -11,19 +11,20 @@
         box-sizing: border-box;
     }
 
-    .bg-image {
+    /* === BACKGROUND ICONS SETTINGS === */
+    .bg-icon {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../bg.png');
-        background-size: cover;
-        background-position: center;
-        opacity: 0.9;
-        z-index: 1;
-        mix-blend-mode: multiply;
+        color: #94a3b8; /* Slate sutil */
+        opacity: 0.08; /* Muito transparente, só pra dar textura */
+        z-index: 1; /* Atrás das orbes, pra misturar no vidro */
     }
+
+    .icon-1 { top: 10%; left: 10%; width: 180px; height: 180px; transform: rotate(-15deg); }
+    .icon-2 { top: 15%; right: 15%; width: 140px; height: 140px; transform: rotate(20deg); }
+    .icon-3 { bottom: 15%; left: 15%; width: 160px; height: 160px; transform: rotate(-25deg); }
+    .icon-4 { bottom: 10%; right: 10%; width: 200px; height: 200px; transform: rotate(10deg); }
+    .icon-5 { top: 40%; left: -5%; width: 120px; height: 120px; transform: rotate(45deg); }
+    .icon-6 { top: 45%; right: -5%; width: 130px; height: 130px; transform: rotate(-30deg); }
 
     .orb-cyan {
         position: absolute;
@@ -156,7 +157,20 @@
 </style>
 
 <div class="story">
-    <div class="bg-image"></div>
+    <!-- SUBTLE BACKGROUND ICONS -->
+    <!-- Stethoscope -->
+    <svg class="bg-icon icon-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+    <!-- Heart pulse -->
+    <svg class="bg-icon icon-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <!-- Brain -->
+    <svg class="bg-icon icon-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>
+    <!-- File medical -->
+    <svg class="bg-icon icon-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10 14h4"/><path d="M12 12v4"/></svg>
+    <!-- Activity -->
+    <svg class="bg-icon icon-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+    <!-- Shield cross -->
+    <svg class="bg-icon icon-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+
     <div class="orb-cyan"></div>
     <div class="orb-mint"></div>
 
