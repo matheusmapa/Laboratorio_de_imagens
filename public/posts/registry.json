@@ -1,5 +1,33 @@
 [
     {
+        "id": "014-medmapa-promo-lumelo",
+        "title": "Promo Premium WhatsApp (LUMELO10)",
+        "description": "Variação 1080x1080 com cupom LUMELO10 e lista de vantagens.",
+        "format": "1080x1080",
+        "slides": 1,
+        "date": "2026-03-12",
+        "tags": [
+            "promo",
+            "whatsapp",
+            "premium",
+            "lumelo"
+        ]
+    },
+    {
+        "id": "013-medmapa-promo-primeiromes",
+        "title": "Promo Premium WhatsApp (Primeiro Mês)",
+        "description": "Variação do layout de conversão 1080x1080, incluindo lista de vantagens e cupom focado no primeiro mês.",
+        "format": "1080x1080",
+        "slides": 1,
+        "date": "2026-03-12",
+        "tags": [
+            "promo",
+            "whatsapp",
+            "premium",
+            "conversao"
+        ]
+    },
+    {
         "id": "012-medmapa-promo-whatsapp",
         "title": "Promo Premium WhatsApp",
         "description": "Imagem 1080x1080 focada em conversão direta. Composição macro (IA) com glassmorphism, orbes de luz e cupons minimalistas.",
