@@ -1,5 +1,18 @@
 [
     {
+        "id": "016-medmapa-recrutamento-embaixadores",
+        "title": "Recrutamento de Embaixadores",
+        "description": "Post simples e premium para recrutamento de embaixadores MedMapa.",
+        "format": "1080x1080",
+        "slides": 1,
+        "date": "2026-03-13",
+        "tags": [
+            "embaixadores",
+            "recrutamento",
+            "medmapa"
+        ]
+    },
+    {
         "id": "015-medmapa-promo-carro-zero",
         "title": "Conversão R1: Carro Zero",
         "description": "Post de alta conversão comparando mensalidades abusivas com o preço de um carro zero. Layout centralizado premium.",
