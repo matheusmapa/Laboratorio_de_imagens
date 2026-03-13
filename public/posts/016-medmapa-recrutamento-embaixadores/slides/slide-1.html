@@ -74,30 +74,15 @@
         align-items: center;
         gap: 20px;
         letter-spacing: -2px;
-        perspective: 1000px;
     }
 
-    .attention-icon-wrapper {
+    .attention-icon {
+        color: #f59e0b; /* Amber/Orange */
+        width: 70px;
+        height: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: float3d 4s ease-in-out infinite;
-        filter: drop-shadow(0 20px 25px rgba(0,0,0,0.15));
-    }
-
-    .attention-icon-wrapper.right {
-        animation-delay: -2s;
-    }
-
-    @keyframes float3d {
-        0%, 100% { transform: translateY(0) rotate(-5deg) scale(1); }
-        50% { transform: translateY(-25px) rotate(5deg) scale(1.05); }
-    }
-
-    .attention-img {
-        width: 110px;
-        height: 110px;
-        object-fit: contain;
     }
 
     .headline {
@@ -188,12 +173,20 @@
         </div>
 
         <div class="attention-tag">
-            <div class="attention-icon-wrapper">
-                <img src="../3d_alert.png" class="attention-img" alt="Alert">
+            <div class="attention-icon">
+                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
             </div>
             <span>ATENÇÃO</span>
-            <div class="attention-icon-wrapper right">
-                <img src="../3d_alert.png" class="attention-img" alt="Alert">
+            <div class="attention-icon">
+                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
             </div>
         </div>
 
