@@ -66,32 +66,53 @@
     }
 
     .attention-tag {
-        font-size: 64px;
-        font-weight: 900;
+        font-size: 72px;
+        font-weight: 950;
         color: #0f172a;
         margin-bottom: 10px;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 30px;
         letter-spacing: -2px;
+        perspective: 1000px;
+    }
+
+    .attention-icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: float 3s ease-in-out infinite;
+        filter: drop-shadow(0 15px 15px rgba(245, 158, 11, 0.3));
+    }
+
+    .attention-icon-wrapper.right {
+        animation-delay: -1.5s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotateX(10deg) rotateY(10deg); }
+        50% { transform: translateY(-20px) rotateX(-10deg) rotateY(-10deg); }
     }
 
     .attention-icon {
-        color: #f59e0b;
+        color: #f59e0b; /* Amber/Orange */
+        width: 70px;
+        height: 70px;
     }
 
     .headline {
-        font-size: 44px;
+        font-size: 46px;
         font-weight: 900;
         color: #000000;
         line-height: 1.1;
         margin: 0 0 25px 0;
         width: 100%;
         white-space: nowrap;
+        letter-spacing: -1px;
     }
 
     .subheadline {
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 500;
         color: #475569;
         margin: 0 0 45px 0;
@@ -126,16 +147,17 @@
     }
 
     .whatsapp-badge {
-        background: #25d366;
+        background: #25d366; /* WhatsApp Green */
         color: #ffffff;
         font-size: 32px;
         font-weight: 800;
-        padding: 20px 40px;
-        border-radius: 24px;
+        padding: 20px 45px;
+        border-radius: 25px;
         display: flex;
         align-items: center;
         gap: 15px;
-        box-shadow: 0 15px 30px rgba(37, 211, 102, 0.2);
+        box-shadow: 0 15px 30px rgba(37, 211, 102, 0.3);
+        transition: transform 0.3s ease;
     }
 
     .final-footer {
@@ -166,12 +188,21 @@
         </div>
 
         <div class="attention-tag">
-            <svg class="attention-icon" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                <line x1="12" y1="9" x2="12" y2="13"></line>
-                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-            ATENÇÃO
+            <div class="attention-icon-wrapper">
+                <svg class="attention-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
+            <span>ATENÇÃO</span>
+            <div class="attention-icon-wrapper right">
+                <svg class="attention-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </div>
         </div>
 
         <h1 class="headline">Estamos recrutando embaixadores</h1>
