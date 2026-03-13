@@ -1,0 +1,234 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .story {
+        width: 1080px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #e0f2fe 0%, #ccfbf1 100%); /* Pale blue to Teal/Aqua */
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    /* === MEDICAL PATTERN BACKGROUND === */
+    .bg-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.15;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg' stroke='%23334155' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cg transform='translate(15, 15) rotate(-10)'%3E%3Cpath d='M22 12h-4l-3 9L9 3l-3 9H2'/%3E%3C/g%3E%3Cg transform='translate(75, 25)'%3E%3Cpath d='M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z'/%3E%3Cpath d='M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z'/%3E%3C/g%3E%3Cg transform='translate(35, 75)'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 2v6h6'/%3E%3Cpath d='M10 14h4'/%3E%3Cpath d='M12 12v4'/%3E%3C/g%3E%3Cg transform='translate(90, 85) rotate(-20)'%3E%3Cpath d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/%3E%3Cpath d='M12 8v8'/%3E%3Cpath d='M8 12h8'/%3E%3C/g%3E%3Cg transform='translate(8, 65) rotate(15)'%3E%3Cpath d='M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3'/%3E%3Cpath d='M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4'/%3E%3Ccircle cx='20' cy='10' r='2'/%3E%3C/g%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 160px 160px;
+    }
+
+    .card {
+        width: 780px;
+        background: #ffffff;
+        border-radius: 48px;
+        padding: 50px 60px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.08); /* Sombra suave */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 10;
+        position: relative;
+    }
+
+    .logo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .logo-icon {
+        width: 60px;
+        height: 60px;
+        color: #0f172a;
+    }
+
+    .logo-text {
+        font-size: 28px;
+        font-weight: 800;
+        color: #000000;
+        margin: 0;
+    }
+
+    .headline {
+        font-size: 34px;
+        font-weight: 900;
+        color: #000000;
+        line-height: 1.1;
+        margin: 0 0 15px 0;
+        white-space: nowrap;
+    }
+
+    .subheadline {
+        font-size: 24px;
+        font-weight: 500;
+        color: #334155;
+        margin: 0 0 35px 0;
+        max-width: 90%;
+    }
+
+    .price-tag {
+        font-size: 56px;
+        font-weight: 900;
+        color: #000000;
+        margin: 0 0 35px 0;
+    }
+
+    .checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        width: 100%;
+        margin-bottom: 45px;
+    }
+
+    .check-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 21px;
+        font-weight: 600;
+        color: #000000;
+        text-align: left;
+    }
+
+    .check-circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #10b981;
+        flex-shrink: 0;
+    }
+
+    .cta-button {
+        width: 100%;
+        background: #0d9488; /* Verde-azulado */
+        color: #ffffff;
+        font-size: 28px;
+        font-weight: 800;
+        padding: 24px 0;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(13, 148, 136, 0.2);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .disclaimer {
+        font-size: 16px;
+        font-weight: 500;
+        color: #94a3b8;
+        margin: 0;
+    }
+
+    /* === SOCIAL INTERFACE === */
+    .social-bar {
+        position: absolute;
+        bottom: 80px;
+        width: 780px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 20px;
+        box-sizing: border-box;
+        z-index: 5;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .icon-social {
+        width: 32px;
+        height: 32px;
+        color: #334155;
+    }
+
+    .icon-heart { color: #f43f5e; } /* Coração vermelho */
+
+    .final-footer {
+        position: absolute;
+        bottom: 30px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 10px 40px;
+        border-radius: 100px;
+        letter-spacing: 2px;
+    }
+</style>
+
+<div class="story">
+    <div class="bg-pattern"></div>
+
+    <div class="card">
+        <div class="logo-container">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                <line x1="9" y1="3" x2="9" y2="18"></line>
+                <line x1="15" y1="6" x2="15" y2="21"></line>
+            </svg>
+            <p class="logo-text">MedMapa</p>
+        </div>
+
+        <h1 class="headline">Esqueça as mensalidades abusivas.</h1>
+        <p class="subheadline">Sua aprovação não precisa custar o preço de um carro zero.</p>
+        
+        <p class="price-tag">Por apenas R$ 19,90/mês</p>
+
+        <div class="checklist">
+            <div class="check-item">
+                <div class="check-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <span>1. ✓ Banco de Questões Focado nas Bancas</span>
+            </div>
+            <div class="check-item">
+                <div class="check-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <span>2. ✓ Caderno de Erros Automático</span>
+            </div>
+            <div class="check-item">
+                <div class="check-circle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <span>3. ✓ Revisões Inteligentes com Flashcards</span>
+            </div>
+        </div>
+
+        <div class="cta-button">GARANTA SEU LUGAR</div>
+        
+        <p class="disclaimer">*Primeiro Mês Grátis com cupom</p>
+    </div>
+
+    <!-- SOCIAL MOCKUP -->
+    <div class="social-bar">
+        <div class="social-icons">
+            <svg class="icon-social icon-heart" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <svg class="icon-social" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <svg class="icon-social" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            <svg class="icon-social" style="margin-left: auto;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+    </div>
+
+    <div class="final-footer">MEDMAPA.COM.BR</div>
+</div>

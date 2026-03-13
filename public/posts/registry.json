@@ -1,5 +1,19 @@
 [
     {
+        "id": "015-medmapa-promo-carro-zero",
+        "title": "Conversão R1: Carro Zero",
+        "description": "Post de alta conversão comparando mensalidades abusivas com o preço de um carro zero. Layout centralizado premium.",
+        "format": "1080x1080",
+        "slides": 1,
+        "date": "2026-03-13",
+        "tags": [
+            "promo",
+            "whatsapp",
+            "carro-zero",
+            "conversao"
+        ]
+    },
+    {
         "id": "014-medmapa-promo-lumelo",
         "title": "Promo Premium WhatsApp (LUMELO10)",
         "description": "Variação 1080x1080 com cupom LUMELO10 e lista de vantagens.",
