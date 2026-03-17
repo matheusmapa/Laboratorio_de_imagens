@@ -115,7 +115,8 @@
             "premium",
             "medmapa"
         ],
-        "category": "MEDMAPA"
+        "category": "MEDMAPA",
+        "deletedAt": "2026-03-17T13:29:55.962Z"
     },
     {
         "id": "004-style-catalog",
