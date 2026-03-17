@@ -320,6 +320,109 @@
             }
         }
 
+        /* Editor Sidebar */
+        .editor-sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 320px;
+            height: 100vh;
+            background: rgba(9, 9, 11, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--shell-border);
+            transition: right 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .editor-sidebar.open {
+            right: 0;
+        }
+
+        .editor-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--shell-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .editor-header button {
+            background: none;
+            border: none;
+            color: var(--shell-muted);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .editor-header button:hover {
+            color: #fff;
+        }
+
+        .editor-body {
+            padding: 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .editor-hint {
+            font-size: 13px;
+            color: var(--shell-muted);
+            background: var(--shell-surface);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid var(--shell-border);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--shell-muted);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            background: var(--shell-surface);
+            border: 1px solid var(--shell-border);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-family: var(--font);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        /* Editing Outline inject */
+        .live-editing-active * {
+            cursor: crosshair !important;
+        }
+        
         @media (max-width: 600px) {
             body {
                 padding: 16px 12px 60px;
@@ -375,6 +478,12 @@
         </div>
 
         <div class="action-bar">
+            <button class="btn btn-secondary" id="btn-toggle-editor" style="border-color: var(--accent); color: var(--accent);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                Editor Automágico
+            </button>
             <button class="btn btn-primary" id="btn-download-current">
                 <span class="spinner"></span>
                 <span class="btn-label">
@@ -401,6 +510,35 @@
             </button>
         </div>
         <div class="export-status" id="export-status"></div>
+    </div>
+
+    <!-- Live Editor Sidebar -->
+    <div class="editor-sidebar" id="editor-sidebar">
+        <div class="editor-header">
+            <h3>Inspetor Visual</h3>
+            <button id="close-editor">✕</button>
+        </div>
+        <div class="editor-body">
+            <p class="editor-hint" id="editor-hint">Passe o mouse na arte para selecionar.</p>
+            <div id="prop-panels" style="display:none;">
+                <div class="form-group">
+                    <label>Editar Texto</label>
+                    <textarea id="prop-text" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Cor do Texto</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="color" id="prop-color-picker" style="width: 40px; height: 38px; padding: 0; background: none; border: 1px solid var(--shell-border); border-radius: 6px; cursor: pointer;">
+                        <input type="text" id="prop-color" style="flex: 1;">
+                    </div>
+                </div>
+            </div>
+            <div id="save-status" style="margin-top: 12px; font-size: 13px; color: #22c55e; display: none;">✅ Salvo no computador!</div>
+            <div class="editor-footer">
+                 <button class="btn btn-primary" id="btn-save-slide" style="width:100%; padding: 10px;">Salvar no HD</button>
+                 <p style="font-size: 12px; color: var(--shell-muted); margin-top: 8px; text-align: center;">Isso sobrescreve o arquivo HTML original.</p>
+            </div>
+        </div>
     </div>
 
     <!-- Container invisível para os estilos injetados via AJAX -->
@@ -526,7 +664,10 @@
                 if (e.key === 'ArrowRight') navigate(1);
             });
             updateUI();
+            initEditor();
         }
+
+        // ... (Keep existing scale, navigate, goTo, updateUI, export methods unchanged until the end)
 
         function scaleAllCanvases() {
             for (let i = 1; i <= TOTAL_SLIDES; i++) {
@@ -534,12 +675,9 @@
                 const canvas = document.getElementById(`canvas-${i}`);
                 if (!frame || !canvas) continue;
 
-                // Viewport available size
                 const viewport = document.querySelector('.carousel-overflow');
-                const vw = viewport.clientWidth - 48; // padding
+                const vw = viewport.clientWidth - 48;
                 const vh = window.innerHeight * 0.65;
-
-                // Scale to fit
                 const scaleX = vw / CANVAS_W;
                 const scaleY = vh / CANVAS_H;
                 const scale = Math.min(scaleX, scaleY, 0.55);
@@ -569,32 +707,25 @@
             });
         }
 
-        // ─── EXPORT ─────────────────────────────────
         async function downloadSlide(slideNum) {
-            // Note that post parameter is the directory ID, not HTML file
             const url = `/api/screenshot?post=${encodeURIComponent(POST_ID)}&slide=${slideNum}&w=${CANVAS_W}&h=${CANVAS_H}`;
-
             const response = await fetch(url);
             if (!response.ok) {
                 const err = await response.json().catch(() => ({ error: 'Erro desconhecido' }));
                 throw new Error(err.error || `HTTP ${response.status}`);
             }
-
             const blob = await response.blob();
             const blobUrl = URL.createObjectURL(blob);
-
             const link = document.createElement('a');
             link.download = `${POST_ID}-slide-${String(slideNum).padStart(2, '0')}.png`;
             link.href = blobUrl;
             link.click();
-
             URL.revokeObjectURL(blobUrl);
         }
 
         async function exportCurrentSlide() {
             const btn = document.getElementById('btn-download-current');
             const status = document.getElementById('export-status');
-
             btn.classList.add('loading');
             btn.disabled = true;
             status.textContent = 'Renderizando imagem em alta resolução...';
@@ -618,7 +749,6 @@
         async function exportAllSlides() {
             const btn = document.getElementById('btn-download-all');
             const status = document.getElementById('export-status');
-
             btn.classList.add('loading');
             btn.disabled = true;
 
@@ -639,6 +769,238 @@
                 btn.classList.remove('loading');
                 btn.disabled = false;
                 setTimeout(() => { status.textContent = ''; }, 4000);
+            }
+        }
+
+        // ─── LIVE EDITOR LOGIC ──────────────────────
+        let isEditorActive = false;
+        let selectedElement = null;
+        let hoverElement = null;
+
+        const btnToggleEditor = document.getElementById('btn-toggle-editor');
+        const editorSidebar = document.getElementById('editor-sidebar');
+        const closeEditorBtn = document.getElementById('close-editor');
+        const editorHint = document.getElementById('editor-hint');
+        const propPanels = document.getElementById('prop-panels');
+        const propText = document.getElementById('prop-text');
+        const propColor = document.getElementById('prop-color');
+        const propColorPicker = document.getElementById('prop-color-picker');
+        const btnSaveSlide = document.getElementById('btn-save-slide');
+        const saveStatus = document.getElementById('save-status');
+
+        function initEditor() {
+            btnToggleEditor.addEventListener('click', toggleEditor);
+            closeEditorBtn.addEventListener('click', () => { if (isEditorActive) toggleEditor(); });
+
+            propText.addEventListener('input', (e) => {
+                if (selectedElement) selectedElement.innerText = e.target.value;
+            });
+            propColor.addEventListener('input', (e) => {
+                if (selectedElement) {
+                    selectedElement.style.color = e.target.value;
+                    selectedElement.style.webkitTextFillColor = e.target.value;
+                    propColorPicker.value = isValidHex(e.target.value) ? e.target.value : '#ffffff';
+                }
+            });
+            propColorPicker.addEventListener('input', (e) => {
+                if (selectedElement) {
+                    const val = e.target.value;
+                    selectedElement.style.color = val;
+                    selectedElement.style.webkitTextFillColor = val;
+                    propColor.value = val;
+                }
+            });
+
+            btnSaveSlide.addEventListener('click', saveModifiedSlide);
+        }
+
+        function isValidHex(hex) {
+            return /^#[0-9A-F]{6}$/i.test(hex);
+        }
+
+        function toggleEditor() {
+            isEditorActive = !isEditorActive;
+            if (isEditorActive) {
+                editorSidebar.classList.add('open');
+                btnToggleEditor.style.background = 'var(--accent-dim)';
+                btnToggleEditor.innerHTML = '✨ Edição Ativa';
+                document.body.classList.add('live-editing-active');
+                enableShadowDOMEditModes();
+            } else {
+                editorSidebar.classList.remove('open');
+                btnToggleEditor.style.background = '';
+                btnToggleEditor.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    Editor Automágico
+                `;
+                document.body.classList.remove('live-editing-active');
+                disableShadowDOMEditModes();
+                deselectElement();
+            }
+        }
+
+        function handleShadowMouseOver(e) {
+            if (!isEditorActive) return;
+            const target = e.target;
+            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
+            
+            if (hoverElement && hoverElement !== target && hoverElement !== selectedElement) {
+                hoverElement.style.outline = '';
+                hoverElement.style.cursor = '';
+            }
+            if (target !== selectedElement) {
+                target.style.outline = '2px dashed var(--accent)';
+                target.style.outlineOffset = '4px';
+                target.style.cursor = 'crosshair';
+                hoverElement = target;
+            }
+        }
+
+        function handleShadowMouseOut(e) {
+            if (!isEditorActive) return;
+            const target = e.target;
+            if (target === hoverElement && target !== selectedElement) {
+                target.style.outline = '';
+                target.style.cursor = '';
+                hoverElement = null;
+            }
+        }
+
+        function rgbToHex(color) {
+            if (!color) return '#ffffff';
+            if (color.startsWith('#')) return color;
+            const match = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+            if (!match) return '#ffffff'; // Fallback
+            return "#" + (1 << 24 | parseInt(match[1]) << 16 | parseInt(match[2]) << 8 | parseInt(match[3])).toString(16).slice(1).toUpperCase();
+        }
+
+        function handleShadowClick(e) {
+            if (!isEditorActive) return;
+            e.preventDefault();
+            e.stopPropagation();
+
+            const target = e.target;
+            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
+
+            selectElement(target);
+        }
+
+        function selectElement(el) {
+            if (selectedElement) {
+                selectedElement.style.outline = ''; 
+            }
+            if (hoverElement) hoverElement.style.outline = '';
+            
+            selectedElement = el;
+            selectedElement.style.outline = '3px solid var(--accent)';
+            selectedElement.style.outlineOffset = '4px';
+
+            editorHint.style.display = 'none';
+            propPanels.style.display = 'block';
+
+            propText.value = selectedElement.innerText;
+            
+            const computedStyle = window.getComputedStyle(selectedElement);
+            // Ignore transparent text fill color (it means standard color applies or gradient applies)
+            let color = computedStyle.color;
+            if (computedStyle.webkitTextFillColor && computedStyle.webkitTextFillColor !== 'rgba(0, 0, 0, 0)' && computedStyle.webkitTextFillColor !== 'transparent' && !computedStyle.webkitTextFillColor.includes('gradient')) {
+                color = computedStyle.webkitTextFillColor;
+            }
+            
+            let hex = rgbToHex(color);
+            propColor.value = hex;
+            propColorPicker.value = isValidHex(hex) ? hex : '#ffffff';
+        }
+
+        function deselectElement() {
+            if (selectedElement) {
+                selectedElement.style.outline = '';
+                selectedElement = null;
+            }
+            if (hoverElement) hoverElement.style.outline = '';
+            editorHint.style.display = 'block';
+            propPanels.style.display = 'none';
+        }
+
+        function enableShadowDOMEditModes() {
+            for (let i = 1; i <= TOTAL_SLIDES; i++) {
+                const canvas = document.getElementById(`canvas-${i}`);
+                if (canvas && canvas.shadowRoot) {
+                    const shadow = canvas.shadowRoot;
+                    // Listeners na raiz
+                    shadow.addEventListener('mouseover', handleShadowMouseOver);
+                    shadow.addEventListener('mouseout', handleShadowMouseOut);
+                    shadow.addEventListener('click', handleShadowClick);
+                }
+            }
+        }
+
+        function disableShadowDOMEditModes() {
+            for (let i = 1; i <= TOTAL_SLIDES; i++) {
+                const canvas = document.getElementById(`canvas-${i}`);
+                if (canvas && canvas.shadowRoot) {
+                    const shadow = canvas.shadowRoot;
+                    shadow.removeEventListener('mouseover', handleShadowMouseOver);
+                    shadow.removeEventListener('mouseout', handleShadowMouseOut);
+                    shadow.removeEventListener('click', handleShadowClick);
+                }
+            }
+        }
+
+        async function saveModifiedSlide() {
+            const slideNum = currentSlide + 1;
+            const canvas = document.getElementById(`canvas-${slideNum}`);
+            if (!canvas || !canvas.shadowRoot) return;
+
+            // Limpa as seleções (suja o HTML de salvamento se for mantida)
+            if (selectedElement) {
+                selectedElement.style.outline = '';
+                selectedElement.style.outlineOffset = '';
+                if (selectedElement.getAttribute('style') === '') selectedElement.removeAttribute('style');
+            }
+            if (hoverElement) {
+                hoverElement.style.outline = '';
+                hoverElement.style.cursor = '';
+                hoverElement.style.outlineOffset = '';
+                if (hoverElement.getAttribute('style') === '') hoverElement.removeAttribute('style');
+            }
+
+            const htmlContent = canvas.shadowRoot.innerHTML;
+            
+            // Reaplicar ao voltar o foco
+            if (selectedElement && isEditorActive) {
+                selectedElement.style.outline = '3px solid var(--accent)';
+                selectedElement.style.outlineOffset = '4px';
+            }
+
+            btnSaveSlide.textContent = 'Salvando...';
+            btnSaveSlide.style.opacity = '0.5';
+
+            try {
+                const res = await fetch('/api/save-html', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: POST_ID,
+                        slide: slideNum,
+                        html: htmlContent
+                    })
+                });
+
+                if (res.ok) {
+                    saveStatus.style.display = 'block';
+                    setTimeout(() => saveStatus.style.display = 'none', 3000);
+                } else {
+                    const err = await res.json();
+                    alert('Erro ao salvar no HD: ' + err.error);
+                }
+            } catch (err) {
+                alert('Erro de Conexão: ' + err.message);
+            } finally {
+                btnSaveSlide.textContent = 'Salvar no HD';
+                btnSaveSlide.style.opacity = '1';
             }
         }
     </script>

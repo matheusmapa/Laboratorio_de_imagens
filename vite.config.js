@@ -66,7 +66,7 @@ function crudPlugin() {
                     return next();
                 }
 
-                if (['/api/trash', '/api/restore', '/api/delete', '/api/update'].includes(parsed.pathname)) {
+                if (['/api/trash', '/api/restore', '/api/delete', '/api/update', '/api/save-html'].includes(parsed.pathname)) {
                     let body = '';
                     req.on('data', chunk => body += chunk.toString());
                     
@@ -111,6 +111,16 @@ function crudPlugin() {
                                 registry[postIndex] = { ...registry[postIndex], ...payload.data };
                                 await writeRegistry(registry);
                                 console.log(`[CMS] Post ${postId} updated.`);
+                            } else if (parsed.pathname === '/api/save-html') {
+                                const slideNum = parseInt(payload.slide);
+                                const htmlContent = payload.html;
+                                if (!slideNum || !htmlContent) {
+                                    res.statusCode = 400;
+                                    return res.end(JSON.stringify({ error: 'Missing slide number or html content' }));
+                                }
+                                const slidePath = path.join(POSTS_DIR, postId, 'slides', `slide-${slideNum}.html`);
+                                await fs.writeFile(slidePath, htmlContent, 'utf-8');
+                                console.log(`[CMS] Post ${postId} Slide ${slideNum} HTML Overwritten.`);
                             }
                             
                             res.setHeader('Content-Type', 'application/json');
