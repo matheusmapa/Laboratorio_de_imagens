@@ -10,7 +10,8 @@
             "embaixadores",
             "recrutamento",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "015-medmapa-promo-carro-zero",
@@ -24,7 +25,8 @@
             "whatsapp",
             "carro-zero",
             "conversao"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "014-medmapa-promo-lumelo",
@@ -38,7 +40,8 @@
             "whatsapp",
             "premium",
             "lumelo"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "013-medmapa-promo-primeiromes",
@@ -52,7 +55,8 @@
             "whatsapp",
             "premium",
             "conversao"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "012-medmapa-promo-whatsapp",
@@ -66,7 +70,8 @@
             "whatsapp",
             "premium",
             "conversao"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "001-post-exemplo",
@@ -78,7 +83,8 @@
         "tags": [
             "exemplo",
             "template"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "011-medmapa-story-journey",
@@ -92,7 +98,8 @@
             "journey",
             "safe-zone",
             "premium"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "009-medmapa-story-tour",
@@ -107,7 +114,9 @@
             "light-mode",
             "premium",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA",
+        "deletedAt": "2026-03-17T13:04:33.700Z"
     },
     {
         "id": "004-style-catalog",
@@ -121,7 +130,8 @@
             "ui",
             "componentes",
             "estilo"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "005-editorial-design",
@@ -135,7 +145,8 @@
             "editorial",
             "layout",
             "tipografia"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "003-design-expert",
@@ -149,7 +160,8 @@
             "ia",
             "sticker",
             "design"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "002-carrossel-venda",
@@ -161,7 +173,8 @@
         "tags": [
             "venda",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "001-medmapa-manifesto",
@@ -173,7 +186,8 @@
         "tags": [
             "venda",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "002-medmapa-comparativo",
@@ -186,7 +200,8 @@
             "venda",
             "comparativo",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "003-medmapa-rotina",
@@ -199,7 +214,8 @@
             "rotina",
             "produtividade",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "004-medmapa-sobrevivencia",
@@ -212,7 +228,8 @@
             "dicas",
             "sobrevivencia",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "005-medmapa-produtividade",
@@ -225,7 +242,8 @@
             "produtividade",
             "estrategia",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "006-medmapa-raiox",
@@ -239,7 +257,8 @@
             "cirurgia",
             "estrategia",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA"
     },
     {
         "id": "007-medmapa-story-funil",
@@ -253,7 +272,9 @@
             "venda",
             "interativo",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA",
+        "deletedAt": "2026-03-17T13:05:37.850Z"
     },
     {
         "id": "008-medmapa-mag",
@@ -266,7 +287,8 @@
             "editorial",
             "bento",
             "medmapa"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "010-medmapa-light-premium",
@@ -280,7 +302,8 @@
             "premium",
             "apple-style",
             "medmapa"
-        ]
+        ],
+        "category": "Exemplo"
     },
     {
         "id": "008-medmapa-story-single",
@@ -294,6 +317,8 @@
             "light-mode",
             "premium",
             "medmapa"
-        ]
+        ],
+        "category": "MEDMAPA",
+        "deletedAt": "2026-03-17T13:04:41.459Z"
     }
 ]
