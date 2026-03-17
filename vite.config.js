@@ -1,4 +1,134 @@
 import { defineConfig } from 'vite';
+import fs from 'fs/promises';
+import path from 'path';
+
+// ─── Local CRUD Backend Plugin ──────────────────────────────
+// Intercepts API calls to manage posts locally (Fake CMS).
+const REGISTRY_PATH = path.resolve(process.cwd(), 'public/posts/registry.json');
+const POSTS_DIR = path.resolve(process.cwd(), 'public/posts');
+
+async function readRegistry() {
+    try {
+        const data = await fs.readFile(REGISTRY_PATH, 'utf-8');
+        return JSON.parse(data);
+    } catch {
+        return [];
+    }
+}
+
+async function writeRegistry(data) {
+    await fs.writeFile(REGISTRY_PATH, JSON.stringify(data, null, 4), 'utf-8');
+}
+
+// Auto-cleanup items in trash older than 7 days
+async function cleanupTrash(registry) {
+    const now = Date.now();
+    const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+    
+    let needsUpdate = false;
+    const cleanedRegistry = [];
+
+    for (const post of registry) {
+        if (post.deletedAt && (now - new Date(post.deletedAt).getTime() > SEVEN_DAYS)) {
+            // Hard delete physically
+            const dirPath = path.join(POSTS_DIR, post.id);
+            try {
+                await fs.rm(dirPath, { recursive: true, force: true });
+                console.log(`[CMS] Trashed post ${post.id} auto-deleted (older than 7 days).`);
+                needsUpdate = true;
+            } catch (err) {
+                console.error(`[CMS] Error deleting ${dirPath}:`, err.message);
+                cleanedRegistry.push(post); // keep in registry if delete failed
+            }
+        } else {
+            cleanedRegistry.push(post);
+        }
+    }
+
+    if (needsUpdate) {
+        await writeRegistry(cleanedRegistry);
+    }
+    return cleanedRegistry;
+}
+
+// Run cleanup immediately on boot
+readRegistry().then(cleanupTrash);
+
+function crudPlugin() {
+    return {
+        name: 'local-cms-crud',
+        configureServer(server) {
+            server.middlewares.use(async (req, res, next) => {
+                const parsed = new URL(req.url, 'http://localhost');
+                
+                // Allow only POST requests for API endpoints
+                if (!parsed.pathname.startsWith('/api/') || req.method !== 'POST') {
+                    return next();
+                }
+
+                if (['/api/trash', '/api/restore', '/api/delete', '/api/update'].includes(parsed.pathname)) {
+                    let body = '';
+                    req.on('data', chunk => body += chunk.toString());
+                    
+                    req.on('end', async () => {
+                        try {
+                            const payload = JSON.parse(body || '{}');
+                            const postId = payload.id;
+                            
+                            if (!postId) {
+                                res.statusCode = 400;
+                                return res.end(JSON.stringify({ error: 'Missing post id' }));
+                            }
+
+                            let registry = await readRegistry();
+                            const postIndex = registry.findIndex(p => p.id === postId);
+
+                            if (postIndex === -1 && parsed.pathname !== '/api/new') {
+                                res.statusCode = 404;
+                                return res.end(JSON.stringify({ error: 'Post not found' }));
+                            }
+
+                            if (parsed.pathname === '/api/trash') {
+                                registry[postIndex].deletedAt = new Date().toISOString();
+                                await writeRegistry(registry);
+                                console.log(`[CMS] Post ${postId} moved to trash.`);
+                                
+                            } else if (parsed.pathname === '/api/restore') {
+                                delete registry[postIndex].deletedAt;
+                                await writeRegistry(registry);
+                                console.log(`[CMS] Post ${postId} restored from trash.`);
+                                
+                            } else if (parsed.pathname === '/api/delete') {
+                                // Hard Delete
+                                const dirPath = path.join(POSTS_DIR, postId);
+                                await fs.rm(dirPath, { recursive: true, force: true });
+                                registry = registry.filter(p => p.id !== postId);
+                                await writeRegistry(registry);
+                                console.log(`[CMS] Post ${postId} PERMANENTLY DELETED.`);
+                                
+                            } else if (parsed.pathname === '/api/update') {
+                                // Merge new data
+                                registry[postIndex] = { ...registry[postIndex], ...payload.data };
+                                await writeRegistry(registry);
+                                console.log(`[CMS] Post ${postId} updated.`);
+                            }
+                            
+                            res.setHeader('Content-Type', 'application/json');
+                            res.end(JSON.stringify({ success: true }));
+                            
+                        } catch (err) {
+                            console.error(`[CMS] API Error:`, err);
+                            res.statusCode = 500;
+                            res.end(JSON.stringify({ error: err.message }));
+                        }
+                    });
+                } else {
+                    next();
+                }
+            });
+        }
+    }
+}
 
 // ─── Playwright Screenshot API Plugin ───────────────────
 // Adds /api/screenshot endpoint that uses real Chrome to capture
@@ -120,7 +250,7 @@ function screenshotPlugin() {
 });
 
 export default defineConfig({
-    plugins: [screenshotPlugin()],
+    plugins: [crudPlugin(), screenshotPlugin()],
     build: {
         outDir: 'dist',
         assetsInlineLimit: 0,

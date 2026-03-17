@@ -42,9 +42,16 @@
         <button class="filter-btn" data-filter="1080x1080">Feed 1:1</button>
         <button class="filter-btn" data-filter="1080x1350">Feed 4:5</button>
         <button class="filter-btn" data-filter="1080x1920">Story</button>
+        <button class="filter-btn danger" data-filter="trash">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Lixeira
+        </button>
       </div>
 
-      <!-- Gallery Grid -->
+      <!-- Categories Container (Injected by JS) -->
+      <div id="categories-container"></div>
+
+      <!-- Gallery Grid (Fallback/All view) -->
       <main class="gallery" id="gallery">
         <!-- Cards rendered by JS -->
       </main>
@@ -54,6 +61,34 @@
         <div class="empty-icon">🧪</div>
         <h2>Nenhum post encontrado</h2>
         <p>Peça ao agente IA para criar seu primeiro post!</p>
+      </div>
+
+      <!-- Edit Modal (Glassmorphism) -->
+      <div class="modal-overlay" id="edit-modal" style="display: none;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title">Editar Propriedades</h2>
+            <button class="modal-close" id="close-modal">✕</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Nome do Post</label>
+              <input type="text" id="edit-title" class="input-field" placeholder="Ex: Novo Post Premium" />
+            </div>
+            <div class="form-group">
+              <label>Descrição</label>
+              <textarea id="edit-desc" class="input-field" rows="3" placeholder="Detalhes curtos..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Pasta (Categoria)</label>
+              <input type="text" id="edit-category" class="input-field" placeholder="Ex: Lançamentos" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" id="cancel-modal">Cancelar</button>
+            <button class="btn-primary" id="save-modal">Salvar Alterações</button>
+          </div>
+        </div>
       </div>
     </div>
 
