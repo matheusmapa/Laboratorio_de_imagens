@@ -5,6 +5,7 @@ const REGISTRY_URL = '/posts/registry.json';
 /** @type {HTMLElement} */
 const gallery = document.getElementById('gallery');
 const categoriesContainer = document.getElementById('categories-container');
+const folderFiltersContainer = document.getElementById('folder-filters');
 const emptyState = document.getElementById('empty-state');
 const postCount = document.getElementById('post-count');
 
@@ -12,12 +13,14 @@ const postCount = document.getElementById('post-count');
 const editModal = document.getElementById('edit-modal');
 const inputTitle = document.getElementById('edit-title');
 const inputDesc = document.getElementById('edit-desc');
-const inputCategory = document.getElementById('edit-category');
+const inputCategorySelect = document.getElementById('edit-category-select');
+const inputCategoryText = document.getElementById('edit-category-input');
 const btnSave = document.getElementById('save-modal');
 
 // ─── State ────────────────────────────────────────────
 let allPosts = [];
-let activeFilter = 'all'; // can be 'all', '1080x1080', ..., 'trash'
+let uniqueCategories = [];
+let activeFilter = 'all'; // can be 'all', '1080x1080', ..., 'trash', or 'folder:NomeDaPasta'
 let currentEditId = null;
 
 // ─── Bootstrap ────────────────────────────────────────
@@ -37,20 +40,66 @@ async function loadPosts() {
     allPosts = await res.json();
     // Sort so newest is first by date, then alphabetically
     allPosts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+    
+    // Extract unique categories (ignoring deleted posts for category listing)
+    const activePosts = allPosts.filter(p => !p.deletedAt);
+    uniqueCategories = [...new Set(activePosts.map(p => p.category || 'Uncategorized'))].sort();
   } catch {
     allPosts = [];
+    uniqueCategories = [];
   }
+  renderFolderFilters();
   render();
 }
 
 // ─── Filters & Top bar ─────────────────────────────────
-function setupFilters() {
-  const buttons = document.querySelectorAll('.filter-btn');
-  buttons.forEach(btn => {
+function renderFolderFilters() {
+  if (uniqueCategories.length <= 1 && uniqueCategories.includes('Uncategorized')) {
+    folderFiltersContainer.style.display = 'none';
+    return;
+  }
+  folderFiltersContainer.style.display = 'flex';
+  
+  let html = '';
+  uniqueCategories.forEach(cat => {
+    const isUncat = cat === 'Uncategorized';
+    const label = isUncat ? 'Sem Pasta' : escapeHtml(cat);
+    const filterKey = isUncat ? 'folder:Uncategorized' : `folder:${cat}`;
+    const isActive = activeFilter === filterKey ? 'active' : '';
+    html += `<button class="filter-btn folder-pill ${isActive}" data-filter="${filterKey}">📁 ${label}</button>`;
+  });
+  
+  folderFiltersContainer.innerHTML = html;
+  
+  // Bind events to new created pills
+  const btns = folderFiltersContainer.querySelectorAll('.filter-btn');
+  const topBtns = document.getElementById('filters').querySelectorAll('.filter-btn');
+
+  btns.forEach(btn => {
     btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
+      // Deactivate top buttons
+      topBtns.forEach(b => b.classList.remove('active'));
+      // Handle active state within folders
+      btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
+      render();
+    });
+  });
+}
+
+function setupFilters() {
+  const topBtns = document.getElementById('filters').querySelectorAll('.filter-btn');
+  topBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      topBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+
+      // Deactivate folder pills
+      const folderBtns = folderFiltersContainer.querySelectorAll('.filter-btn');
+      folderBtns.forEach(b => b.classList.remove('active'));
+      
       render();
     });
   });
@@ -65,8 +114,11 @@ function render() {
   } else {
     // Hide trash from normal views
     visiblePosts = visiblePosts.filter(p => !p.deletedAt);
-    if (activeFilter !== 'all') {
+    if (activeFilter !== 'all' && !activeFilter.startsWith('folder:')) {
       visiblePosts = visiblePosts.filter(p => p.format === activeFilter);
+    } else if (activeFilter.startsWith('folder:')) {
+      const targetFolder = activeFilter.replace('folder:', '');
+      visiblePosts = visiblePosts.filter(p => (p.category || 'Uncategorized') === targetFolder);
     }
   }
 
@@ -98,8 +150,16 @@ function render() {
     gallery.style.display = 'none'; // hide flat gallery
     const byCategory = groupByCategory(visiblePosts);
     
+    // Sort categories: Uncategorized always last
+    const sortedCategories = Object.keys(byCategory).sort((a, b) => {
+      if (a === 'Uncategorized') return 1;
+      if (b === 'Uncategorized') return -1;
+      return a.localeCompare(b);
+    });
+    
     // Render each category block
-    for (const [categoryName, posts] of Object.entries(byCategory)) {
+    for (const categoryName of sortedCategories) {
+      const posts = byCategory[categoryName];
       const isUncategorized = categoryName === 'Uncategorized';
       const icon = isUncategorized ? '📁' : '🧪';
       const displayTitle = isUncategorized ? 'Sem Pasta' : escapeHtml(categoryName);
@@ -107,17 +167,38 @@ function render() {
       const section = document.createElement('div');
       section.className = 'folder-section';
       section.innerHTML = `
-        <div class="folder-header">
-          <span class="folder-icon">${icon}</span>
-          <h2 class="folder-title">${displayTitle}</h2>
-          <span class="folder-count">${posts.length}</span>
+        <div class="folder-header accordion-toggle">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <span class="folder-icon">${icon}</span>
+            <h2 class="folder-title">${displayTitle}</h2>
+            <span class="folder-count">${posts.length}</span>
+          </div>
         </div>
-        <div class="gallery">
+        <div class="gallery folder-gallery">
           ${posts.map(post => createCard(post)).join('')}
         </div>
       `;
       categoriesContainer.appendChild(section);
     }
+    
+    // Bind accordion toggles
+    const accordions = categoriesContainer.querySelectorAll('.accordion-toggle');
+    accordions.forEach(acc => {
+      acc.addEventListener('click', () => {
+        const galleryDiv = acc.nextElementSibling;
+        const chevron = acc.querySelector('.chevron-icon');
+        const isCollapsed = galleryDiv.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+          galleryDiv.classList.remove('collapsed');
+          chevron.style.transform = 'rotate(0deg)';
+        } else {
+          galleryDiv.classList.add('collapsed');
+          chevron.style.transform = 'rotate(-90deg)';
+        }
+      });
+    });
     
     bindCardEvents(categoriesContainer);
   } else {
@@ -273,19 +354,37 @@ function setupModal() {
   document.getElementById('close-modal').addEventListener('click', closeEditModal);
   document.getElementById('cancel-modal').addEventListener('click', closeEditModal);
   
+  // Smart select logic for new folders
+  inputCategorySelect.addEventListener('change', (e) => {
+    if (e.target.value === '__NEW__') {
+      inputCategorySelect.style.display = 'none';
+      inputCategoryText.style.display = 'block';
+      inputCategoryText.value = '';
+      inputCategoryText.focus();
+    }
+  });
+  
   btnSave.addEventListener('click', async () => {
     if (!currentEditId) return;
     
     // Disable inputs while saving
     btnSave.textContent = 'Salvando...';
     btnSave.style.opacity = '0.5';
+    
+    // Determine category to save (from select, or from text if custom)
+    let selectedCat = inputCategorySelect.value;
+    if (selectedCat === '__NEW__') {
+      selectedCat = inputCategoryText.value.trim();
+    } else if (selectedCat === 'Uncategorized') {
+      selectedCat = ''; // save as empty string back into JSON
+    }
 
     await sendApiAction('/api/update', {
       id: currentEditId,
       data: {
         title: inputTitle.value.trim(),
         description: inputDesc.value.trim(),
-        category: inputCategory.value.trim()
+        category: selectedCat
       }
     });
 
@@ -297,7 +396,33 @@ function openEditModal(post) {
   currentEditId = post.id;
   inputTitle.value = post.title || '';
   inputDesc.value = post.description || '';
-  inputCategory.value = post.category || '';
+  
+  // Populate options
+  let optionsHtml = '';
+  // Force Uncategorized so users can remove a post from a folder
+  optionsHtml += `<option value="Uncategorized">Sem Pasta</option>`;
+  
+  uniqueCategories.forEach(cat => {
+    if (cat === 'Uncategorized') return; // already added above
+    optionsHtml += `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`;
+  });
+  optionsHtml += `<option value="__NEW__" style="font-weight: bold; color: var(--accent-violet);">+ Nova Pasta...</option>`;
+  
+  inputCategorySelect.innerHTML = optionsHtml;
+  
+  // Reset fields display
+  inputCategorySelect.style.display = 'block';
+  inputCategoryText.style.display = 'none';
+  
+  const postCat = post.category || 'Uncategorized';
+  
+  // Select it if it exists in list
+  if (uniqueCategories.includes(postCat)) {
+    inputCategorySelect.value = postCat;
+  } else {
+    // Edge case if a weird string is loaded
+    inputCategorySelect.value = 'Uncategorized';
+  }
   
   btnSave.textContent = 'Salvar Alterações';
   btnSave.style.opacity = '1';
