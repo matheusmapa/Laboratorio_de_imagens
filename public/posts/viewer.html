@@ -534,6 +534,13 @@
                         <input type="text" id="prop-color" style="flex: 1;">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Tamanho (Fonte)</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="range" id="prop-size" min="10" max="600" value="16" style="flex: 1;">
+                        <span id="prop-size-display" style="font-size: 13px; color: var(--shell-muted); min-width: 45px; text-align: right;">16px</span>
+                    </div>
+                </div>
             </div>
             <div id="save-status" style="margin-top: 12px; font-size: 13px; color: #22c55e; display: none;">✅ Salvo no computador!</div>
             <div class="editor-footer">
@@ -787,12 +794,21 @@
         const propText = document.getElementById('prop-text');
         const propColor = document.getElementById('prop-color');
         const propColorPicker = document.getElementById('prop-color-picker');
+        const propSize = document.getElementById('prop-size');
+        const propSizeDisplay = document.getElementById('prop-size-display');
         const btnSaveSlide = document.getElementById('btn-save-slide');
         const saveStatus = document.getElementById('save-status');
 
         function initEditor() {
             btnToggleEditor.addEventListener('click', toggleEditor);
             closeEditorBtn.addEventListener('click', () => { if (isEditorActive) toggleEditor(); });
+
+            // Bloquear setas do teclado de afetarem o slider raiz (Bug fix relatado)
+            editorSidebar.addEventListener('keydown', (e) => {
+                if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                    e.stopPropagation();
+                }
+            });
 
             propText.addEventListener('input', (e) => {
                 if (selectedElement) selectedElement.innerText = e.target.value;
@@ -810,6 +826,13 @@
                     selectedElement.style.color = val;
                     selectedElement.style.webkitTextFillColor = val;
                     propColor.value = val;
+                }
+            });
+            propSize.addEventListener('input', (e) => {
+                if (selectedElement) {
+                    const val = `${e.target.value}px`;
+                    selectedElement.style.fontSize = val;
+                    propSizeDisplay.textContent = val;
                 }
             });
 
@@ -921,6 +944,12 @@
             let hex = rgbToHex(color);
             propColor.value = hex ? hex : color; // Mostra rgba se não puder converter
             propColorPicker.value = isValidHex(hex) ? hex : '#000000';
+
+            // Font Size sync
+            const fSizeStr = computedStyle.fontSize || '16px';
+            const fSizeNum = parseInt(fSizeStr, 10);
+            propSize.value = isNaN(fSizeNum) ? 16 : fSizeNum;
+            propSizeDisplay.textContent = `${isNaN(fSizeNum) ? 16 : fSizeNum}px`;
         }
 
         function deselectElement() {
