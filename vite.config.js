@@ -12,7 +12,16 @@ async function readRegistry() {
         const data = await fs.readFile(REGISTRY_PATH, 'utf-8');
         return JSON.parse(data);
     } catch {
-        return [];
+        // Seeding mechanism for fresh clones (Best Practice)
+        try {
+            const examplePath = path.resolve(process.cwd(), 'public/posts/registry.example.json');
+            const seedData = await fs.readFile(examplePath, 'utf-8');
+            console.log('[CMS] Clean install detected. Seeding database with templates...');
+            await fs.writeFile(REGISTRY_PATH, seedData, 'utf-8'); // auto-cria o arquivo local
+            return JSON.parse(seedData);
+        } catch(e) {
+            return [];
+        }
     }
 }
 

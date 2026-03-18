@@ -1,0 +1,60 @@
+[
+    {
+        "id": "001-post-exemplo",
+        "title": "Post de Exemplo",
+        "description": "Demonstra a estrutura completa de um post com exportação PNG funcional.",
+        "format": "1080x1350",
+        "slides": 3,
+        "date": "2026-03-04",
+        "tags": [
+            "exemplo",
+            "template"
+        ],
+        "category": "Exemplo"
+    },
+    {
+        "id": "004-style-catalog",
+        "title": "Style Catalog: UI Reference",
+        "description": "Uma biblioteca viva de componentes e estilos (Bento, Neumorfismo, Brutalismo) para guiar o design de novos posts.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "referencia",
+            "ui",
+            "componentes",
+            "estilo"
+        ],
+        "category": "Exemplo"
+    },
+    {
+        "id": "005-editorial-design",
+        "title": "Editorial Mastery: Layouts & Type",
+        "description": "Design de alta sofisticação visual misturando tipografia pesada, colagem digital e grids de revista.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "referencia",
+            "editorial",
+            "layout",
+            "tipografia"
+        ],
+        "category": "Exemplo"
+    },
+    {
+        "id": "003-design-expert",
+        "title": "Design Expert Showcase",
+        "description": "Demonstração de design avançado com assets gerados por IA, stickers 3D e efeitos de overlay.",
+        "format": "1080x1350",
+        "slides": 10,
+        "date": "2026-03-06",
+        "tags": [
+            "showcase",
+            "ia",
+            "sticker",
+            "design"
+        ],
+        "category": "Exemplo"
+    }
+]
