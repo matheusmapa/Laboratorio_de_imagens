@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignorar Posts Dinâmicos e Banco de Dados Local
+public/posts/*
+!public/posts/viewer.html
+!public/posts/004-style-catalog/
+
