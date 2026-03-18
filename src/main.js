@@ -257,6 +257,9 @@ function createCard(post) {
   } else {
     actionsHtml = `
       <div class="card-actions">
+        <button class="action-btn" title="Copiar ID" data-action="copy-id" data-id="${post.id}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+        </button>
         <button class="action-btn" title="Editar Propriedades" data-action="edit" data-id="${post.id}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>
         </button>
@@ -327,6 +330,13 @@ function bindCardEvents(container) {
         await sendApiAction('/api/delete', { id });
       } else if (action === 'edit') {
         openEditModal(post);
+      } else if (action === 'copy-id') {
+        navigator.clipboard.writeText(post.id).then(() => {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(() => { btn.innerHTML = original; }, 1500);
+        });
+        return;
       }
     });
   });
