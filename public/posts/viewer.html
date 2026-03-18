@@ -1199,19 +1199,17 @@
             if (isDragging) {
                 e.preventDefault();
                 
-                // Calcula o deslocamento real do mouse desde o click
-                const deltaX = e.clientX - dragStartX;
-                const deltaY = e.clientY - dragStartY;
+                // Calcula o deslocamento real do mouse comparado à coordenada EXATA onde o cara clicou no Mousedown
+                const deltaX = e.clientX - dragStartOffsetX;
+                const deltaY = e.clientY - dragStartOffsetY;
 
                 // Scale factor: o mouse move X pixels na tela, mas o canvas original tem 1080x1350.
-                // Precisamos descobrir a escala atual do canvas na tela para o drag não "correr" mais rápido que o mouse.
                 const slideNum = currentSlide + 1;
                 const canvasContainer = document.getElementById(`canvas-${slideNum}`).parentElement;
                 const rect = canvasContainer.getBoundingClientRect();
-                // A largura original do canvas é CANVAS_W (ex: 1080). A largura na tela é rect.width.
                 const scale = CANVAS_W / rect.width;
 
-                // Aplica a escala para descobrir quantos "pixels originais" o mouse moveu
+                // Aplica a escala sobre o quanto do mouse MOVEU DESDE O CLIQUE
                 const newX = initialElementX + (deltaX * scale);
                 const newY = initialElementY + (deltaY * scale);
 
@@ -1297,9 +1295,17 @@
                     selectedElement.style.position = 'relative';
                 }
                 
-                // Puxa a posição calculada atual em PIXELS (mesmo que estivesse em %, o navegador já resolve)
+                // Puxa a posição JS calculada para ter algo como base
                 initialElementX = parseFloat(computedStyle.left) || 0;
                 initialElementY = parseFloat(computedStyle.top) || 0;
+
+                // Salva a Bounding Box real no momento do clique (sem dependência do DOM de margem/flex)
+                const rect = selectedElement.getBoundingClientRect();
+                
+                // Salva a diferença exata entre o clique na TELA e a posição do ELEMENTO na TELA
+                // Quando o mouse mover, mudaremos o left relativo a essa diferença
+                dragStartOffsetX = e.clientX;
+                dragStartOffsetY = e.clientY;
             } else {
                 // Modo Edição normal (Cursor Crosshair mantido)
                 selectedElement.style.cursor = 'crosshair';
