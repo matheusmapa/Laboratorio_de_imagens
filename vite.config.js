@@ -86,7 +86,7 @@ function crudPlugin() {
                     return next();
                 }
 
-                if (['/api/trash', '/api/restore', '/api/delete', '/api/update', '/api/save-html', '/api/resolve-path'].includes(parsed.pathname)) {
+                if (['/api/trash', '/api/restore', '/api/delete', '/api/update', '/api/save-html', '/api/resolve-path', '/api/upload'].includes(parsed.pathname)) {
                     let body = '';
                     req.on('data', chunk => body += chunk.toString());
                     
@@ -158,6 +158,28 @@ function crudPlugin() {
                                 const slidePath = path.join(absPath, 'slides', `slide-${slideNum}.html`);
                                 await fs.writeFile(slidePath, htmlContent, 'utf-8');
                                 console.log(`[CMS] Post ${postId} Slide ${slideNum} HTML Overwritten.`);
+                            } else if (parsed.pathname === '/api/upload') {
+                                const inboxPath = path.resolve(process.cwd(), 'public/inbox');
+                                try { await fs.mkdir(inboxPath, { recursive: true }); } catch (e) {}
+                                
+                                if (!payload.data || !payload.filename) {
+                                    res.statusCode = 400;
+                                    return res.end(JSON.stringify({ error: 'Missing data or filename' }));
+                                }
+                                
+                                const matches = payload.data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+                                if (!matches || matches.length !== 3) {
+                                    res.statusCode = 400;
+                                    return res.end(JSON.stringify({ error: 'Invalid base64 DataURL' }));
+                                }
+                                const buffer = Buffer.from(matches[2], 'base64');
+                                const cleanName = payload.filename.replace(/[^a-zA-Z0-9.-]/g, '_');
+                                const finalPath = path.join(inboxPath, cleanName);
+                                await fs.writeFile(finalPath, buffer);
+                                console.log(`[CMS] Asset uploaded to inbox: ${cleanName}`);
+                                
+                                res.setHeader('Content-Type', 'application/json');
+                                return res.end(JSON.stringify({ success: true, url: `/inbox/${cleanName}` }));
                             }
                             
                             res.setHeader('Content-Type', 'application/json');

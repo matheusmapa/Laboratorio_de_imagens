@@ -31,6 +31,7 @@ async function init() {
   await loadPosts();
   setupFilters();
   setupModal();
+  setupDragAndDrop();
 }
 
 async function loadPosts() {
