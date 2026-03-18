@@ -541,6 +541,12 @@
                         <span id="prop-size-display" style="font-size: 13px; color: var(--shell-muted); min-width: 45px; text-align: right;">16px</span>
                     </div>
                 </div>
+                <div class="form-group" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--shell-border);">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #fff;">
+                        <input type="checkbox" id="prop-move-toggle" style="width: 16px; height: 16px; cursor: pointer;">
+                        Permitir mover elemento (livre)
+                    </label>
+                </div>
             </div>
             <div id="save-status" style="margin-top: 12px; font-size: 13px; color: #22c55e; display: none;">✅ Salvo no computador!</div>
             <div class="editor-footer">
@@ -813,6 +819,7 @@
         const propColorPicker = document.getElementById('prop-color-picker');
         const propSize = document.getElementById('prop-size');
         const propSizeDisplay = document.getElementById('prop-size-display');
+        const propMoveToggle = document.getElementById('prop-move-toggle');
         const btnSaveSlide = document.getElementById('btn-save-slide');
         const saveStatus = document.getElementById('save-status');
 
@@ -854,6 +861,12 @@
                     const val = `${e.target.value}px`;
                     selectedElement.style.fontSize = val;
                     propSizeDisplay.textContent = val;
+                }
+            });
+
+            propMoveToggle.addEventListener('change', (e) => {
+                if (selectedElement) {
+                    selectedElement.style.cursor = e.target.checked ? 'grab' : 'crosshair';
                 }
             });
 
@@ -946,7 +959,7 @@
             if (target !== selectedElement) {
                 target.style.outline = '2px dashed var(--accent)';
                 target.style.outlineOffset = '4px';
-                target.style.cursor = 'grab'; // Indica que é arrastável
+                target.style.cursor = propMoveToggle.checked ? 'grab' : 'crosshair'; // Cursor muda baseado na intenção
                 hoverElement = target;
             }
         }
@@ -976,46 +989,51 @@
             const target = e.target;
             if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
 
-            // Ao clicar, selecionamos, e também iniciamos o "Drag"
+            // Ao clicar, selecionamos (foco para editar texto/cor)
             selectElement(target);
 
-            // --- Ativação do Motor Físico (Drag Start) ---
-            isDragging = true;
-            dragStartX = e.clientX;
-            dragStartY = e.clientY;
-            selectedElement.style.cursor = 'grabbing';
+            // --- Ativação do Motor Físico (Drag Start) APENAS se o toggle estiver ligado ---
+            if (propMoveToggle.checked) {
+                isDragging = true;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                selectedElement.style.cursor = 'grabbing';
 
-            // Se o elemento ainda não é Position Absolute, convertemos cirurgicamente
-            const computedStyle = window.getComputedStyle(selectedElement);
-            if (computedStyle.position !== 'absolute') {
-                // Descobrir onde ele está visualmente antes de arrancar do fluxo
-                const slideNum = currentSlide + 1;
-                const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); // The real container
-                
-                const targetRect = selectedElement.getBoundingClientRect();
-                const parentRect = canvas.getBoundingClientRect();
+                // Se o elemento ainda não é Position Absolute, convertemos cirurgicamente
+                const computedStyle = window.getComputedStyle(selectedElement);
+                if (computedStyle.position !== 'absolute') {
+                    // Descobrir onde ele está visualmente antes de arrancar do fluxo
+                    const slideNum = currentSlide + 1;
+                    const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); // The real container
+                    
+                    const targetRect = selectedElement.getBoundingClientRect();
+                    const parentRect = canvas.getBoundingClientRect();
 
-                // Escala atual do responsivo
-                const scale = CANVAS_W / parentRect.width;
+                    // Escala atual do responsivo
+                    const scale = CANVAS_W / parentRect.width;
 
-                // Transforma as coordenadas da tela (Pixels exibidos) de volta para a escala do Canvas nativo (1080x1350)
-                const relativeLeft = (targetRect.left - parentRect.left) * scale;
-                const relativeTop = (targetRect.top - parentRect.top) * scale;
-                
-                // Travar largura para o texto não quebrar de forma estranha ao virar absoluto
-                selectedElement.style.width = computedStyle.width;
-                
-                selectedElement.style.position = 'absolute';
-                selectedElement.style.left = `${relativeLeft}px`;
-                selectedElement.style.top = `${relativeTop}px`;
-                selectedElement.style.margin = '0'; // Limpa margens relativas antigas
-                
-                initialElementX = relativeLeft;
-                initialElementY = relativeTop;
+                    // Transforma as coordenadas da tela (Pixels exibidos) de volta para a escala do Canvas nativo (1080x1350)
+                    const relativeLeft = (targetRect.left - parentRect.left) * scale;
+                    const relativeTop = (targetRect.top - parentRect.top) * scale;
+                    
+                    // Travar largura para o texto não quebrar de forma estranha ao virar absoluto
+                    selectedElement.style.width = computedStyle.width;
+                    
+                    selectedElement.style.position = 'absolute';
+                    selectedElement.style.left = `${relativeLeft}px`;
+                    selectedElement.style.top = `${relativeTop}px`;
+                    selectedElement.style.margin = '0'; // Limpa margens relativas antigas
+                    
+                    initialElementX = relativeLeft;
+                    initialElementY = relativeTop;
+                } else {
+                    // Já é absoluto, apenas guardamos a posição atual
+                    initialElementX = parseFloat(selectedElement.style.left) || 0;
+                    initialElementY = parseFloat(selectedElement.style.top) || 0;
+                }
             } else {
-                // Já é absoluto, apenas guardamos a posição atual
-                initialElementX = parseFloat(selectedElement.style.left) || 0;
-                initialElementY = parseFloat(selectedElement.style.top) || 0;
+                // Modo Edição normal (Cursor Crosshair mantido)
+                selectedElement.style.cursor = 'crosshair';
             }
         }
 
