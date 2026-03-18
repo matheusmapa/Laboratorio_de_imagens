@@ -869,6 +869,12 @@
                     e.preventDefault();
                     handleRedo();
                 }
+
+                // Pressionar ENTER para Soltar o Elemento (Drop)
+                if (e.key === 'Enter' && isDragging && isMoveModeActive) {
+                    e.preventDefault();
+                    handleGlobalMouseUp(e);
+                }
             });
 
             // Trigger History on Inputs
