@@ -38,5 +38,9 @@ Se o usuário anexar uma **imagem de referência** e pedir para clonar ou criar 
 3.  Use o script **crucial** `node scripts/remove-bg.js "C:\...\img.png" "C:\...\img-nobg.png"` para isolar/recortar o objeto (usando Inteligência Artificial e a NPU local do usuário). 
 4.  Insira as imagens recém-criadas no HTML do slide usando **posicionamento Absoluto** com z-index avançado, filtros de Drop Shadow pesados e recrie os textos por cima para simular a imersão visual e bater 100% de paridade com o estilo da referência.
 
-### 7. Verificação do Resultado
-Avise o usuário. Sugira ele testar abrindo a galeria (http://localhost:5173), clicando no post e visualizando os botões de navegação, dots na barra inferior e também verificando a exportação `.png`.
+### 7. O Pulo do Gato para IAs (Integração com o Live Editor) 🎨
+**Aviso Crítico para Agentes:** O Laboratório de Imagens possui um **Editor Visual (Live Editor) embuitido nativamente no frontend** com Ferramentas de Seleção, Resize Bounding Boxes em CSS, Drag-and-Drop Físico com compensação de offset, e inputs reativos de Fonte/Cor com Undo/Redo (Ctrl+Z).
+**Isso significa que:** Você **NÃO** precisa gastar seu tempo / loops de ferramenta tentando adivinhar e iterar pixels perfeitos de `top` ou `left` durante a geração. Posicione os containers e imagens Absolutas (ou Relativas) de forma aproximada e harmonicamente correta. Se concentre firmemente na *Engenharia de Prompt das Imagens 3D* e no HTML/CSS modular limpo. Comunique ao usuário que ele pode ajustar a tipografia, alterar o texto final, escalar e mover qualquer card fotograficamente 100% pelo mouse no painel dele! O usuário tem autonomia.
+
+### 8. Verificação do Resultado
+Avise o usuário. Sugira ele testar abrindo a galeria (http://localhost:5173), clicando no post e acessando o Editor Automágico para ajustar livremente os itens. Lembre-o também de usar o Drag-and-Drop segurando `Shift` se ele precisar forçar a proporção das fotos geradas.
