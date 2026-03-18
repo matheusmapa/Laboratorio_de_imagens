@@ -1,0 +1,292 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;600;700&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: #fdfdfd;
+        font-family: 'Inter', sans-serif;
+        color: #333;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Teal Top Section */
+    .top-section {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55%;
+        background-color: #21a3b1; /* Teal Color */
+        /* Procedural Torn paper edge using randomized clip-path polygon */
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 
+            98% 98%, 95% 100%, 93% 97%, 90% 100%, 88% 97%, 85% 100%, 82% 98%, 80% 100%, 
+            78% 97%, 75% 100%, 72% 98%, 70% 100%, 68% 97%, 65% 100%, 62% 98%, 60% 100%, 
+            58% 97%, 55% 100%, 52% 98%, 50% 100%, 48% 97%, 45% 100%, 42% 98%, 40% 100%, 
+            38% 97%, 35% 100%, 32% 98%, 30% 100%, 28% 97%, 25% 100%, 22% 98%, 20% 100%, 
+            18% 97%, 15% 100%, 12% 98%, 10% 100%, 8% 97%, 5% 100%, 2% 98%, 0 100%);
+        z-index: 1;
+    }
+
+    /* SVG overlay to add a subtle shadow on the ripped paper's edge */
+    .top-shadow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55%;
+        background-color: transparent;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 
+            98% 98%, 95% 100%, 93% 97%, 90% 100%, 88% 97%, 85% 100%, 82% 98%, 80% 100%, 
+            78% 97%, 75% 100%, 72% 98%, 70% 100%, 68% 97%, 65% 100%, 62% 98%, 60% 100%, 
+            58% 97%, 55% 100%, 52% 98%, 50% 100%, 48% 97%, 45% 100%, 42% 98%, 40% 100%, 
+            38% 97%, 35% 100%, 32% 98%, 30% 100%, 28% 97%, 25% 100%, 22% 98%, 20% 100%, 
+            18% 97%, 15% 100%, 12% 98%, 10% 100%, 8% 97%, 5% 100%, 2% 98%, 0 100%);
+        z-index: 0; 
+    }
+
+    /* Pattern Overlays (Dots, Blobs) */
+    .pattern-1 {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 300px;
+        height: 300px;
+        background-image: radial-gradient(#1c8894 25%, transparent 25%);
+        background-size: 25px 25px;
+        border-radius: 0 0 0 100%;
+        z-index: 2;
+        opacity: 0.6;
+    }
+    
+    .pattern-2 {
+        position: absolute;
+        top: 300px;
+        left: -100px;
+        width: 350px;
+        height: 250px;
+        background: #1c8894;
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        z-index: 2;
+        opacity: 0.4;
+    }
+
+    /* Top Content */
+    .logo {
+        position: absolute;
+        top: 50px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-weight: 800;
+        font-size: 38px;
+        letter-spacing: -1.5px;
+        z-index: 5;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .logo span {
+        font-weight: 400;
+        opacity: 0.9;
+    }
+
+    .main-title {
+        position: absolute;
+        top: 170px;
+        width: 100%;
+        text-align: center;
+        color: white;
+        z-index: 5;
+    }
+
+    .main-title h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 130px;
+        line-height: 0.95;
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -2px;
+    }
+
+    .main-title h2 {
+        font-family: 'Inter', sans-serif;
+        font-size: 42px;
+        font-weight: 500;
+        margin-top: 10px;
+        color: #e2f8fa;
+        letter-spacing: -1px;
+    }
+
+    /* Background Elements Bottom */
+    .bot-leaves {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 450px;
+        height: 450px;
+        background-color: #21a3b1;
+        clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 70%, 30% 60%, 40% 30%, 80% 0);
+        z-index: 3;
+        border-radius: 100% 0 0 0;
+    }
+
+    .bot-leaf-shape-1 {
+        position: absolute;
+        bottom: -50px;
+        right: 100px;
+        width: 150px;
+        height: 400px;
+        background-color: #178a94;
+        border-radius: 50% 50% 0 0;
+        transform: rotate(-30deg);
+        z-index: 3;
+    }
+    
+    .bot-leaf-shape-2 {
+        position: absolute;
+        bottom: -50px;
+        right: 0px;
+        width: 100px;
+        height: 350px;
+        background-color: #1c8894;
+        border-radius: 50% 50% 0 0;
+        transform: rotate(20deg);
+        z-index: 3;
+    }
+
+    .bot-purple {
+        position: absolute;
+        bottom: -30px;
+        right: -30px;
+        width: 320px;
+        height: 220px;
+        background-color: #b7a6dd;
+        border-radius: 70% 30% 40% 60%;
+        z-index: 4;
+        box-shadow: inset -20px -20px 0px rgba(0,0,0,0.08); /* organic shadow effect */
+        background-image: repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(255,255,255,0.2) 8px, rgba(255,255,255,0.2) 11px);
+    }
+
+    .bot-dots {
+        position: absolute;
+        bottom: 120px;
+        right: 250px;
+        width: 150px;
+        height: 200px;
+        background-image: radial-gradient(#c6eff2 30%, transparent 30%);
+        background-size: 20px 20px;
+        border-radius: 30px;
+        z-index: 3;
+    }
+
+    /* Left Dictionary Text */
+    .dictionary {
+        position: absolute;
+        left: 60px;
+        top: 55%;
+        width: 250px;
+        z-index: 5;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #4b5563;
+        text-align: justify;
+    }
+
+    .dictionary h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 34px;
+        color: #1f2937;
+        margin: 0 0 5px 0;
+        letter-spacing: -1px;
+    }
+
+    .dictionary .phonetic {
+        color: #9ca3af;
+        margin-bottom: 20px;
+        font-family: monospace;
+    }
+
+    .dictionary p {
+        margin: 0;
+    }
+
+    .dictionary hr {
+        border: none;
+        border-top: 1px dashed #d1d5db;
+        margin: 15px 0;
+    }
+
+    /* Right Highlight Text */
+    .highlight-box {
+        position: absolute;
+        right: 60px;
+        top: 50%; /* Overlap the tear slightly */
+        width: 350px;
+        z-index: 5;
+        font-size: 42px;
+        font-weight: 600;
+        line-height: 1.15;
+        color: #374151;
+        text-align: left;
+        letter-spacing: -1.5px;
+    }
+
+    .highlight-box .purple-text {
+        color: #9d81d2;
+    }
+
+    /* Hero Image */
+    .hero-image {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-40%);
+        width: 800px;
+        height: auto;
+        z-index: 10;
+        filter: drop-shadow(0 25px 50px rgba(0,0,0,0.4));
+    }
+</style>
+
+<div class="slide">
+    <!-- Top Section & Shadow -->
+    <div class="top-shadow"></div>
+    <div class="top-section">
+        <div class="pattern-1"></div>
+        <div class="pattern-2"></div>
+    </div>
+    
+    <div class="logo">med<span>mapa</span><sup style="font-size: 18px;">+</sup></div>
+    
+    <div class="main-title">
+        <h1>Mulheres<br>na saúde:</h1>
+        <h2>vozes, desafios e conquistas</h2>
+    </div>
+
+    <!-- Bottom Decorations -->
+    <div class="bot-dots"></div>
+    <div class="bot-leaves">
+        <div class="bot-leaf-shape-1"></div>
+        <div class="bot-leaf-shape-2"></div>
+    </div>
+    <div class="bot-purple"></div>
+
+    <div class="dictionary">
+        <h3>Sororidade</h3>
+        <div class="phonetic">[so.ro.ri.da.de]</div>
+        <p>Conceito que remete à união, empatia, solidariedade e acolhimento.</p>
+        <hr>
+        <p>Sentimento de irmandade entre as mulheres, baseado no compartilhamento da mesma identidade de gênero, e na atitude de não incentivar rivalidade social.</p>
+    </div>
+
+    <div class="highlight-box">
+        Uma campanha especial da MedMapa para o <br>
+        <span class="purple-text">Mês da Mulher.</span>
+    </div>
+
+    <img src="/posts/Novos/019-medmapa-dia-mulheres/assets/doctor-hero.png" alt="Médica" class="hero-image">
+</div>

@@ -1,5 +1,20 @@
 [
     {
+        "id": "019-medmapa-dia-mulheres",
+        "title": "Mês da Mulher: Mulheres na Saúde",
+        "description": "Uma homenagem avançada replicando estética complexa pelo Motor Autônomo.",
+        "format": "1080x1350",
+        "slides": 1,
+        "date": "2026-03-17",
+        "tags": [
+            "ia",
+            "referencia",
+            "mulheres",
+            "premium"
+        ],
+        "category": "Novos"
+    },
+    {
         "id": "011-referencia",
         "title": "Você no Comando",
         "description": "Reconstrução visual autônoma da IA clonando uma referência de mão. Geração 3D local e remoção de fundo nativa.",
