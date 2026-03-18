@@ -1103,7 +1103,7 @@
             if (isDragging) return; // Não pisca outlines enquanto arrasta
 
             const target = e.target;
-            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
+            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg')) return;
             
             if (hoverElement && hoverElement !== target && hoverElement !== selectedElement) {
                 cleanElementStyles(hoverElement);
@@ -1139,7 +1139,7 @@
             e.stopPropagation();
 
             const target = e.target;
-            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
+            if (target.tagName.toLowerCase() === 'svg' || target.closest('svg')) return;
 
             // Ao clicar, selecionamos (foco para editar texto/cor)
             selectElement(target);
@@ -1154,33 +1154,16 @@
                 dragStartY = e.clientY;
                 selectedElement.style.cursor = 'grabbing';
 
-                // Se o elemento ainda não é Position Absolute, convertemos cirurgicamente
+                // Se o elemento ainda não é Position Absolute, convertemos para Relative
+                // Isso preserva a "física" do layout e impede que itens em volta desabem
                 const computedStyle = window.getComputedStyle(selectedElement);
                 if (computedStyle.position !== 'absolute') {
-                    const slideNum = currentSlide + 1;
-                    const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); 
-                    
-                    const targetRect = selectedElement.getBoundingClientRect();
-                    const parentRect = canvas.getBoundingClientRect();
-
-                    const scale = CANVAS_W / parentRect.width;
-
-                    const relativeLeft = (targetRect.left - parentRect.left) * scale;
-                    const relativeTop = (targetRect.top - parentRect.top) * scale;
-                    
-                    selectedElement.style.width = computedStyle.width;
-                    
-                    selectedElement.style.position = 'absolute';
-                    selectedElement.style.left = `${relativeLeft}px`;
-                    selectedElement.style.top = `${relativeTop}px`;
-                    selectedElement.style.margin = '0'; 
-                    
-                    initialElementX = relativeLeft;
-                    initialElementY = relativeTop;
-                } else {
-                    initialElementX = parseFloat(selectedElement.style.left) || 0;
-                    initialElementY = parseFloat(selectedElement.style.top) || 0;
+                    selectedElement.style.position = 'relative';
                 }
+                
+                // Puxa a posição calculada atual em PIXELS (mesmo que estivesse em %, o navegador já resolve)
+                initialElementX = parseFloat(computedStyle.left) || 0;
+                initialElementY = parseFloat(computedStyle.top) || 0;
             } else {
                 // Modo Edição normal (Cursor Crosshair mantido)
                 selectedElement.style.cursor = 'crosshair';
