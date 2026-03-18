@@ -548,9 +548,21 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="history-controls" style="display: flex; gap: 8px; margin-top: 20px; border-top: 1px solid var(--shell-border); padding-top: 16px;">
+                 <button class="btn btn-secondary" id="btn-undo" style="flex: 1;" disabled title="Desfazer (Ctrl+Z)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform: scaleX(-1);"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Desfazer
+                 </button>
+                 <button class="btn btn-secondary" id="btn-redo" style="flex: 1;" disabled title="Refazer (Ctrl+Y)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Refazer
+                 </button>
+            </div>
+
             <div id="save-status" style="margin-top: 12px; font-size: 13px; color: #22c55e; display: none;">✅ Salvo no computador!</div>
             <div class="editor-footer">
-                 <button class="btn btn-primary" id="btn-save-slide" style="width:100%; padding: 10px;">Salvar no HD</button>
+                 <button class="btn btn-primary" id="btn-save-slide" style="width:100%; padding: 10px; margin-top: 12px;">Salvar no HD</button>
                  <p style="font-size: 12px; color: var(--shell-muted); margin-top: 8px; text-align: center;">Isso sobrescreve o arquivo HTML original.</p>
             </div>
         </div>
@@ -809,6 +821,11 @@
         let initialElementX = 0;
         let initialElementY = 0;
 
+        // Undo / Redo State
+        let historyStack = [];
+        let redoStack = [];
+        const MAX_HISTORY = 30;
+
         const btnToggleEditor = document.getElementById('btn-toggle-editor');
         const editorSidebar = document.getElementById('editor-sidebar');
         const closeEditorBtn = document.getElementById('close-editor');
@@ -821,6 +838,8 @@
         const propSizeDisplay = document.getElementById('prop-size-display');
         const btnToggleMove = document.getElementById('btn-toggle-move');
         const moveModeLabel = document.getElementById('move-mode-label');
+        const btnUndo = document.getElementById('btn-undo');
+        const btnRedo = document.getElementById('btn-redo');
         const btnSaveSlide = document.getElementById('btn-save-slide');
         let isMoveModeActive = false;
         const saveStatus = document.getElementById('save-status');
@@ -829,19 +848,45 @@
             btnToggleEditor.addEventListener('click', toggleEditor);
             closeEditorBtn.addEventListener('click', () => { if (isEditorActive) toggleEditor(); });
 
-            // Bloquear setas do teclado de afetarem o slider raiz (Bug fix relatado)
-            editorSidebar.addEventListener('keydown', (e) => {
-                if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            // Keyboard Shortcuts for Undo/Redo & Slider Block
+            window.addEventListener('keydown', (e) => {
+                if (!isEditorActive) return;
+                
+                // Block slider keys if inside sidebar
+                if(e.target.closest('#editor-sidebar') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
                     e.stopPropagation();
+                }
+
+                // Ctrl+Z
+                if (e.ctrlKey && e.key === 'z') {
+                    e.preventDefault();
+                    if (e.shiftKey) handleRedo(); // Ctrl+Shift+Z
+                    else handleUndo();
+                }
+                
+                // Ctrl+Y
+                if (e.ctrlKey && e.key === 'y') {
+                    e.preventDefault();
+                    handleRedo();
                 }
             });
 
-            // Global Mouse events for dragging (bound to window so we don't lose drag when mouse goes outside the element)
-            window.addEventListener('mousemove', handleGlobalMouseMove);
+            // Trigger History on Inputs
+            let inputTimeout;
+            const captureInputHistory = () => {
+                clearTimeout(inputTimeout);
+                inputTimeout = setTimeout(() => captureState(), 600); // debounce
+            };
+
+            // Global Mouse events for dragging
+            window.addEventListener('mousemove', handleGlobalMouseMove, { passive: false });
             window.addEventListener('mouseup', handleGlobalMouseUp);
 
             propText.addEventListener('input', (e) => {
-                if (selectedElement) selectedElement.innerText = e.target.value;
+                if (selectedElement) {
+                    selectedElement.innerText = e.target.value;
+                    captureInputHistory();
+                }
             });
             propColor.addEventListener('input', (e) => {
                 if (selectedElement) {
@@ -862,13 +907,89 @@
                 if (selectedElement) {
                     const val = `${e.target.value}px`;
                     selectedElement.style.fontSize = val;
-                    propSizeDisplay.textContent = val;
+                    captureInputHistory();
                 }
             });
 
             btnToggleMove.addEventListener('click', toggleMoveMode);
-
+            btnUndo.addEventListener('click', handleUndo);
+            btnRedo.addEventListener('click', handleRedo);
             btnSaveSlide.addEventListener('click', saveModifiedSlide);
+        }
+
+        // --- HISTORY ENGINE (UNDO/REDO) ---
+        function getSlideHTML() {
+            const slideNum = currentSlide + 1;
+            const canvas = document.getElementById(`canvas-${slideNum}`);
+            if (!canvas || !canvas.shadowRoot) return null;
+            return canvas.shadowRoot.innerHTML;
+        }
+
+        function restoreSlideHTML(html) {
+            const slideNum = currentSlide + 1;
+            const canvas = document.getElementById(`canvas-${slideNum}`);
+            if (!canvas || !canvas.shadowRoot) return;
+            
+            // Clean selection before replacing DOM
+            deselectElement();
+            
+            canvas.shadowRoot.innerHTML = html;
+            
+            // Re-bind listeners for the NEW dom elements in the shadowRoot
+            const shadow = canvas.shadowRoot;
+            shadow.addEventListener('mouseover', handleShadowMouseOver);
+            shadow.addEventListener('mouseout', handleShadowMouseOut);
+            shadow.addEventListener('click', handleShadowClick);
+            shadow.addEventListener('mousemove', handleGlobalMouseMove, { passive: false });
+            shadow.addEventListener('mouseup', handleGlobalMouseUp);
+        }
+
+        function captureState() {
+            if (!isEditorActive) return;
+            const html = getSlideHTML();
+            if(!html) return;
+            
+            // Don't capture if identical to last state
+            if(historyStack.length > 0 && historyStack[historyStack.length - 1] === html) return;
+
+            historyStack.push(html);
+            if (historyStack.length > MAX_HISTORY) historyStack.shift();
+            
+            redoStack = []; // Clear redo on new action
+            updateHistoryUI();
+        }
+
+        function updateHistoryUI() {
+            btnUndo.disabled = historyStack.length <= 1; // Need at least 1 back state + current
+            btnRedo.disabled = redoStack.length === 0;
+        }
+
+        function handleUndo() {
+            if (historyStack.length > 1) {
+                const currentHtml = getSlideHTML();
+                redoStack.push(currentHtml);
+                
+                historyStack.pop(); // Remove current
+                const previousHtml = historyStack[historyStack.length - 1]; // Get real previous
+                restoreSlideHTML(previousHtml);
+                updateHistoryUI();
+            }
+        }
+
+        function handleRedo() {
+            if (redoStack.length > 0) {
+                const nextHtml = redoStack.pop();
+                
+                // Push current back to history before moving forward
+                const currentHtml = getSlideHTML();
+                if(historyStack[historyStack.length - 1] !== currentHtml) {
+                     historyStack.push(currentHtml);
+                }
+                
+                historyStack.push(nextHtml);
+                restoreSlideHTML(nextHtml);
+                updateHistoryUI();
+            }
         }
 
         function isValidHex(hex) {
@@ -899,6 +1020,12 @@
                 btnToggleEditor.innerHTML = '✨ Edição Ativa';
                 btnToggleMove.style.display = 'flex'; // Exibe o botão global
                 document.body.classList.add('live-editing-active');
+                
+                // Initialize history stack for the first time
+                historyStack = [];
+                redoStack = [];
+                captureState(); 
+
                 enableShadowDOMEditModes();
             } else {
                 editorSidebar.classList.remove('open');
@@ -956,8 +1083,10 @@
         function handleGlobalMouseUp(e) {
             if (isDragging) {
                 isDragging = false;
-                if(selectedElement) {
+                if(selectedElement && isMoveModeActive) {
                     selectedElement.style.cursor = 'grab';
+                    // Capture state after finishing the physical move
+                    captureState();
                 }
             }
         }
@@ -1011,6 +1140,9 @@
 
             // --- Ativação do Motor Físico (Drag Start) APENAS se o toggle Global estiver ligado ---
             if (isMoveModeActive) {
+                // Remove selection visual outlines during drag to commit clean html to history 
+                cleanElementStyles(selectedElement);
+                
                 isDragging = true;
                 dragStartX = e.clientX;
                 dragStartY = e.clientY;
@@ -1099,10 +1231,14 @@
                 const canvas = document.getElementById(`canvas-${i}`);
                 if (canvas && canvas.shadowRoot) {
                     const shadow = canvas.shadowRoot;
-                    // Listeners na raiz
+                    // Listeners na raiz do Shadow DOM
                     shadow.addEventListener('mouseover', handleShadowMouseOver);
                     shadow.addEventListener('mouseout', handleShadowMouseOut);
                     shadow.addEventListener('click', handleShadowClick);
+                    
+                    // Critical pass-through for dragging inside the shadow boundary
+                    shadow.addEventListener('mousemove', handleGlobalMouseMove, { passive: false });
+                    shadow.addEventListener('mouseup', handleGlobalMouseUp);
                 }
             }
         }
@@ -1115,6 +1251,9 @@
                     shadow.removeEventListener('mouseover', handleShadowMouseOver);
                     shadow.removeEventListener('mouseout', handleShadowMouseOut);
                     shadow.removeEventListener('click', handleShadowClick);
+                    
+                    shadow.removeEventListener('mousemove', handleGlobalMouseMove);
+                    shadow.removeEventListener('mouseup', handleGlobalMouseUp);
                 }
             }
         }
