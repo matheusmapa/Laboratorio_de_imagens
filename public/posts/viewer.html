@@ -920,10 +920,16 @@
                     handleRedo();
                 }
 
-                // Pressionar ENTER para Soltar o Elemento (Drop)
-                if (e.key === 'Enter' && isDragging && isMoveModeActive) {
-                    e.preventDefault();
-                    handleGlobalMouseUp(e);
+                // Pressionar ENTER para Soltar o Elemento (Drop) ou Concluir a Edição (Deselect)
+                if (e.key === 'Enter') {
+                    if (isDragging && isMoveModeActive) {
+                        e.preventDefault();
+                        handleGlobalMouseUp(e);
+                    } else if (selectedElement && document.activeElement !== propText) {
+                        // Enter conclui a edição e solta o elemento se não estivermos na text-area de múltiplas linhas
+                        e.preventDefault();
+                        deselectElement();
+                    }
                 }
             });
 
