@@ -442,6 +442,38 @@
                 width: 100%;
             }
         }
+
+        .back-link:hover {
+            color: white;
+            opacity: 1;
+        }
+
+        /* --- Global Resize Overlay --- */
+        #global-resize-overlay {
+            position: fixed;
+            display: none;
+            border: 2px solid var(--accent);
+            pointer-events: none;
+            z-index: 99999;
+        }
+        .r-handle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: auto;
+        }
+        .r-handle.nw { top: -6px; left: -6px; cursor: nwse-resize; }
+        .r-handle.ne { top: -6px; right: -6px; cursor: nesw-resize; }
+        .r-handle.sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+        .r-handle.se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+        .r-handle.n { top: -6px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+        .r-handle.s { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+        .r-handle.e { right: -6px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+        .r-handle.w { left: -6px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+
     </style>
 </head>
 
@@ -570,6 +602,18 @@
 
     <!-- Container invisível para os estilos injetados via AJAX -->
     <div id="styles-container"></div>
+
+    <!-- Bounding Box Overlay for Resizing Elements -->
+    <div id="global-resize-overlay">
+        <div class="r-handle nw" data-dir="nw"></div>
+        <div class="r-handle ne" data-dir="ne"></div>
+        <div class="r-handle sw" data-dir="sw"></div>
+        <div class="r-handle se" data-dir="se"></div>
+        <div class="r-handle n" data-dir="n"></div>
+        <div class="r-handle s" data-dir="s"></div>
+        <div class="r-handle e" data-dir="e"></div>
+        <div class="r-handle w" data-dir="w"></div>
+    </div>
 
     <script>
         // ─── STATE ──────────────────────────────────
@@ -821,6 +865,12 @@
         let initialElementX = 0;
         let initialElementY = 0;
 
+        // Resize State
+        let isResizing = false;
+        let resizeDir = '';
+        let initialResizeRect = null;
+        const resizeOverlay = document.getElementById('global-resize-overlay');
+
         // Undo / Redo State
         let historyStack = [];
         let redoStack = [];
@@ -921,6 +971,29 @@
             btnUndo.addEventListener('click', handleUndo);
             btnRedo.addEventListener('click', handleRedo);
             btnSaveSlide.addEventListener('click', saveModifiedSlide);
+            window.addEventListener('resize', updateResizeOverlay);
+            
+            // Setup Resize Handles events
+            resizeOverlay.querySelectorAll('.r-handle').forEach(h => {
+                h.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!selectedElement) return;
+                    isResizing = true;
+                    resizeDir = e.target.dataset.dir;
+
+                    const computed = window.getComputedStyle(selectedElement);
+                    initialResizeRect = {
+                        width: parseFloat(computed.width) || selectedElement.offsetWidth,
+                        height: parseFloat(computed.height) || selectedElement.offsetHeight,
+                        left: parseFloat(computed.left) || 0,
+                        top: parseFloat(computed.top) || 0
+                    };
+                    
+                    dragStartX = e.clientX;
+                    dragStartY = e.clientY;
+                });
+            });
         }
 
         // --- HISTORY ENGINE (UNDO/REDO) ---
@@ -1062,32 +1135,92 @@
 
         // --- DRAG AND DROP ENGINE ---
         function handleGlobalMouseMove(e) {
-            if (!isEditorActive || !isDragging || !selectedElement) return;
-            
-            e.preventDefault();
-            
-            // Calcula o deslocamento real do mouse desde o click
-            const deltaX = e.clientX - dragStartX;
-            const deltaY = e.clientY - dragStartY;
+            if (!isEditorActive || !selectedElement) return;
 
-            // Scale factor: o mouse move X pixels na tela, mas o canvas original tem 1080x1350.
-            // Precisamos descobrir a escala atual do canvas na tela para o drag não "correr" mais rápido que o mouse.
-            const slideNum = currentSlide + 1;
-            const canvasContainer = document.getElementById(`canvas-${slideNum}`).parentElement;
-            const rect = canvasContainer.getBoundingClientRect();
-            // A largura original do canvas é CANVAS_W (ex: 1080). A largura na tela é rect.width.
-            const scale = CANVAS_W / rect.width;
+            if (isResizing) {
+                e.preventDefault();
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
 
-            // Aplica a escala para descobrir quantos "pixels originais" o mouse moveu
-            const newX = initialElementX + (deltaX * scale);
-            const newY = initialElementY + (deltaY * scale);
+                const slideNum = currentSlide + 1;
+                const canvasContainer = document.getElementById(`canvas-${slideNum}`).parentElement;
+                const rect = canvasContainer.getBoundingClientRect();
+                const scale = CANVAS_W / rect.width;
 
-            selectedElement.style.left = `${newX}px`;
-            selectedElement.style.top = `${newY}px`;
+                const dX = deltaX * scale;
+                const dY = deltaY * scale;
+
+                let newW = initialResizeRect.width;
+                let newH = initialResizeRect.height;
+                let newL = initialResizeRect.left;
+                let newT = initialResizeRect.top;
+
+                if (resizeDir.includes('e')) newW += dX;
+                if (resizeDir.includes('s')) newH += dY;
+                if (resizeDir.includes('w')) {
+                    newW -= dX;
+                    newL += dX;
+                }
+                if (resizeDir.includes('n')) {
+                    newH -= dY;
+                    newT += dY;
+                }
+
+                // Minimum bounds
+                if (newW < 20) {
+                    if (resizeDir.includes('w')) newL -= (20 - newW);
+                    newW = 20;
+                }
+                if (newH < 20) {
+                    if (resizeDir.includes('n')) newT -= (20 - newH);
+                    newH = 20;
+                }
+
+                selectedElement.style.width = `${newW}px`;
+                selectedElement.style.height = `${newH}px`;
+                
+                if (resizeDir.includes('w') || resizeDir.includes('n')) {
+                     const isStatic = window.getComputedStyle(selectedElement).position === 'static';
+                     if(isStatic) selectedElement.style.position = 'relative';
+                     selectedElement.style.left = `${newL}px`;
+                     selectedElement.style.top = `${newT}px`;
+                }
+
+                updateResizeOverlay();
+                return;
+            }
+
+            if (isDragging) {
+                e.preventDefault();
+                
+                // Calcula o deslocamento real do mouse desde o click
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+
+                // Scale factor: o mouse move X pixels na tela, mas o canvas original tem 1080x1350.
+                // Precisamos descobrir a escala atual do canvas na tela para o drag não "correr" mais rápido que o mouse.
+                const slideNum = currentSlide + 1;
+                const canvasContainer = document.getElementById(`canvas-${slideNum}`).parentElement;
+                const rect = canvasContainer.getBoundingClientRect();
+                // A largura original do canvas é CANVAS_W (ex: 1080). A largura na tela é rect.width.
+                const scale = CANVAS_W / rect.width;
+
+                // Aplica a escala para descobrir quantos "pixels originais" o mouse moveu
+                const newX = initialElementX + (deltaX * scale);
+                const newY = initialElementY + (deltaY * scale);
+
+                selectedElement.style.left = `${newX}px`;
+                selectedElement.style.top = `${newY}px`;
+                
+                updateResizeOverlay();
+            }
         }
 
         function handleGlobalMouseUp(e) {
-            if (isDragging) {
+            if (isResizing) {
+                isResizing = false;
+                captureState();
+            } else if (isDragging) {
                 isDragging = false;
                 if(selectedElement && isMoveModeActive) {
                     selectedElement.style.cursor = 'grab';
@@ -1145,10 +1278,7 @@
             selectElement(target);
 
             // --- Ativação do Motor Físico (Drag Start) APENAS se o toggle Global estiver ligado ---
-            if (isMoveModeActive) {
-                // Remove selection visual outlines during drag to commit clean html to history 
-                cleanElementStyles(selectedElement);
-                
+            if (isMoveModeActive) {                
                 isDragging = true;
                 dragStartX = e.clientX;
                 dragStartY = e.clientY;
@@ -1170,6 +1300,19 @@
             }
         }
 
+        function updateResizeOverlay() {
+            if (!selectedElement || !isEditorActive) {
+                resizeOverlay.style.display = 'none';
+                return;
+            }
+            const rect = selectedElement.getBoundingClientRect();
+            resizeOverlay.style.display = 'block';
+            resizeOverlay.style.top = `${rect.top}px`;
+            resizeOverlay.style.left = `${rect.left}px`;
+            resizeOverlay.style.width = `${rect.width}px`;
+            resizeOverlay.style.height = `${rect.height}px`;
+        }
+
         function selectElement(el) {
             if (selectedElement) {
                 cleanElementStyles(selectedElement);
@@ -1179,8 +1322,10 @@
             }
             
             selectedElement = el;
-            selectedElement.style.outline = '3px solid var(--accent)';
-            selectedElement.style.outlineOffset = '4px';
+            // Remover fixed CSS outline a favor do target overlay
+            // selectedElement.style.outline = '3px solid var(--accent)';
+            // selectedElement.style.outlineOffset = '4px';
+            updateResizeOverlay();
 
             editorHint.style.display = 'none';
             propPanels.style.display = 'block';
@@ -1211,6 +1356,7 @@
                 cleanElementStyles(hoverElement);
                 hoverElement = null;
             }
+            resizeOverlay.style.display = 'none';
             editorHint.style.display = 'block';
             propPanels.style.display = 'none';
         }
