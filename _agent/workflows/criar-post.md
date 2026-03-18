@@ -29,7 +29,14 @@ Nele vão conter apenas:
 - Repita o processo até finalizar a quantidade de slides definida em `post.json`.
 
 ### 5. Configurar o Dashboard Catálogo
-Adicione seu novo post ao fim do Array no arquivo `C:\Laboratorio_de_imagens\public\posts\registry.json`. Use a propriedade `"id": "NNN-slug"` (sem barra nem index). 
+Adicione seu novo post ao fim do Array no arquivo `C:\Laboratorio_de_imagens\public\posts\registry.json`. Use a propriedade `"id": "NNN-slug"`. Cuidado para inserir a propriedade `"category": "NomeDaPasta"` caso crie subpastas.
 
-### 6. Verificação do Resultado
+### 6. Geração Autônoma e Cloning (Motor de Fogo) 🔥
+Se o usuário anexar uma **imagem de referência** e pedir para clonar ou criar algo similar:
+1.  Use sua ferramenta nativa `generate_image` para criar renders 3D Premium ou illustrations dos personagens/objetos base, garantindo fundos limpos (ex: branco sólido).
+2.  Use o script `node scripts/fetch-asset.js "URL_DA_NET" "C:\...\destino.png"` para baixar texturas/wallpapers remotos sem precisar do usuário.
+3.  Use o script **crucial** `node scripts/remove-bg.js "C:\...\img.png" "C:\...\img-nobg.png"` para isolar/recortar o objeto (usando Inteligência Artificial e a NPU local do usuário). 
+4.  Insira as imagens recém-criadas no HTML do slide usando **posicionamento Absoluto** com z-index avançado, filtros de Drop Shadow pesados e recrie os textos por cima para simular a imersão visual e bater 100% de paridade com o estilo da referência.
+
+### 7. Verificação do Resultado
 Avise o usuário. Sugira ele testar abrindo a galeria (http://localhost:5173), clicando no post e visualizando os botões de navegação, dots na barra inferior e também verificando a exportação `.png`.

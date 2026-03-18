@@ -54,6 +54,18 @@ async function cleanupTrash(registry) {
 // Run cleanup immediately on boot
 readRegistry().then(cleanupTrash);
 
+async function resolvePostPath(postId) {
+    const root = path.resolve(process.cwd(), 'public/posts');
+    const items = await fs.readdir(root, { withFileTypes: true });
+    try { if ((await fs.stat(path.join(root, postId))).isDirectory()) return path.join(root, postId); } catch (e) {}
+    for (const item of items) {
+        if (item.isDirectory() && item.name !== postId && item.name !== 'assets') {
+             try { if ((await fs.stat(path.join(root, item.name, postId))).isDirectory()) return path.join(root, item.name, postId); } catch(e){}
+        }
+    }
+    return null;
+}
+
 function crudPlugin() {
     return {
         name: 'local-cms-crud',
@@ -61,12 +73,11 @@ function crudPlugin() {
             server.middlewares.use(async (req, res, next) => {
                 const parsed = new URL(req.url, 'http://localhost');
                 
-                // Allow only POST requests for API endpoints
                 if (!parsed.pathname.startsWith('/api/') || req.method !== 'POST') {
                     return next();
                 }
 
-                if (['/api/trash', '/api/restore', '/api/delete', '/api/update', '/api/save-html'].includes(parsed.pathname)) {
+                if (['/api/trash', '/api/restore', '/api/delete', '/api/update', '/api/save-html', '/api/resolve-path'].includes(parsed.pathname)) {
                     let body = '';
                     req.on('data', chunk => body += chunk.toString());
                     
@@ -75,17 +86,31 @@ function crudPlugin() {
                             const payload = JSON.parse(body || '{}');
                             const postId = payload.id;
                             
-                            if (!postId) {
+                            if (!postId && parsed.pathname !== '/api/new') {
                                 res.statusCode = 400;
                                 return res.end(JSON.stringify({ error: 'Missing post id' }));
                             }
 
-                            let registry = await readRegistry();
-                            const postIndex = registry.findIndex(p => p.id === postId);
+                            if (parsed.pathname === '/api/resolve-path') {
+                                const absPath = await resolvePostPath(postId);
+                                if (!absPath) {
+                                    res.statusCode = 404;
+                                    return res.end(JSON.stringify({ error: 'Post physical folder not found' }));
+                                }
+                                // Convert absolute path to public URL relative path
+                                const publicRoot = path.resolve(process.cwd(), 'public');
+                                let relPath = absPath.replace(publicRoot, '').replace(/\\/g, '/');
+                                return res.end(JSON.stringify({ basePath: relPath }));
+                            }
 
-                            if (postIndex === -1 && parsed.pathname !== '/api/new') {
-                                res.statusCode = 404;
-                                return res.end(JSON.stringify({ error: 'Post not found' }));
+                            let registry = await readRegistry();
+                            let postIndex = -1;
+                            if (postId) {
+                                postIndex = registry.findIndex(p => p.id === postId);
+                                if (postIndex === -1 && parsed.pathname !== '/api/new') {
+                                    res.statusCode = 404;
+                                    return res.end(JSON.stringify({ error: 'Post not found' }));
+                                }
                             }
 
                             if (parsed.pathname === '/api/trash') {
@@ -99,26 +124,29 @@ function crudPlugin() {
                                 console.log(`[CMS] Post ${postId} restored from trash.`);
                                 
                             } else if (parsed.pathname === '/api/delete') {
-                                // Hard Delete
-                                const dirPath = path.join(POSTS_DIR, postId);
-                                await fs.rm(dirPath, { recursive: true, force: true });
+                                const absPath = await resolvePostPath(postId);
+                                if (absPath) {
+                                    await fs.rm(absPath, { recursive: true, force: true });
+                                    console.log(`[CMS] Post ${postId} PERMANENTLY DELETED.`);
+                                }
                                 registry = registry.filter(p => p.id !== postId);
                                 await writeRegistry(registry);
-                                console.log(`[CMS] Post ${postId} PERMANENTLY DELETED.`);
                                 
                             } else if (parsed.pathname === '/api/update') {
-                                // Merge new data
                                 registry[postIndex] = { ...registry[postIndex], ...payload.data };
                                 await writeRegistry(registry);
                                 console.log(`[CMS] Post ${postId} updated.`);
+                                
                             } else if (parsed.pathname === '/api/save-html') {
                                 const slideNum = parseInt(payload.slide);
                                 const htmlContent = payload.html;
                                 if (!slideNum || !htmlContent) {
                                     res.statusCode = 400;
-                                    return res.end(JSON.stringify({ error: 'Missing slide number or html content' }));
+                                    return res.end(JSON.stringify({ error: 'Missing slide/html content' }));
                                 }
-                                const slidePath = path.join(POSTS_DIR, postId, 'slides', `slide-${slideNum}.html`);
+                                const absPath = await resolvePostPath(postId);
+                                if (!absPath) throw new Error("Folder not found");
+                                const slidePath = path.join(absPath, 'slides', `slide-${slideNum}.html`);
                                 await fs.writeFile(slidePath, htmlContent, 'utf-8');
                                 console.log(`[CMS] Post ${postId} Slide ${slideNum} HTML Overwritten.`);
                             }

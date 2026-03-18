@@ -573,8 +573,18 @@
             }
 
             try {
+                // 0. Resolve dynamic true path for the post due to nested folders
+                const pathRes = await fetch('/api/resolve-path', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: POST_ID })
+                });
+                
+                if (!pathRes.ok) throw new Error("A pasta física deste post não foi encontrada.");
+                const { basePath } = await pathRes.json();
+
                 // 1. Fetch post metadata
-                const metaRes = await fetch(`/posts/${POST_ID}/post.json`);
+                const metaRes = await fetch(`${basePath}/post.json`);
                 if (!metaRes.ok) throw new Error("post.json não encontrado");
                 config = await metaRes.json();
 
@@ -591,7 +601,7 @@
                 buildCarouselSkeleton();
 
                 // 4. Load slide content dynamically
-                await loadSlidesConcurrently();
+                await loadSlidesConcurrently(basePath);
 
                 // 5. Initialize UI
                 document.getElementById('loader').style.display = 'none';
@@ -640,11 +650,11 @@
             }
         }
 
-        async function loadSlidesConcurrently() {
+        async function loadSlidesConcurrently(basePath) {
             const promises = Array.from({ length: TOTAL_SLIDES }, async (_, idx) => {
                 const num = idx + 1;
                 try {
-                    const res = await fetch(`/posts/${POST_ID}/slides/slide-${num}.html`);
+                    const res = await fetch(`${basePath}/slides/slide-${num}.html`);
                     if (!res.ok) throw new Error('Not found');
                     const text = await res.text();
 
