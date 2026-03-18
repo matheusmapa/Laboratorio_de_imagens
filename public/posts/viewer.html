@@ -486,6 +486,12 @@
                 </svg>
                 Editor Automágico
             </button>
+            <button class="btn btn-secondary" id="btn-toggle-move" style="display: none; border-color: #f59e0b; color: #f59e0b;" title="Alterna entre selecionar para editar vs clicar e arrastar livremente">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line>
+                </svg>
+                <span id="move-mode-label">Mover Livre: OFF</span>
+            </button>
             <button class="btn btn-primary" id="btn-download-current">
                 <span class="spinner"></span>
                 <span class="btn-label">
@@ -540,12 +546,6 @@
                         <input type="range" id="prop-size" min="10" max="600" value="16" style="flex: 1;">
                         <span id="prop-size-display" style="font-size: 13px; color: var(--shell-muted); min-width: 45px; text-align: right;">16px</span>
                     </div>
-                </div>
-                <div class="form-group" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--shell-border);">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: #fff;">
-                        <input type="checkbox" id="prop-move-toggle" style="width: 16px; height: 16px; cursor: pointer;">
-                        Permitir mover elemento (livre)
-                    </label>
                 </div>
             </div>
             <div id="save-status" style="margin-top: 12px; font-size: 13px; color: #22c55e; display: none;">✅ Salvo no computador!</div>
@@ -819,8 +819,10 @@
         const propColorPicker = document.getElementById('prop-color-picker');
         const propSize = document.getElementById('prop-size');
         const propSizeDisplay = document.getElementById('prop-size-display');
-        const propMoveToggle = document.getElementById('prop-move-toggle');
+        const btnToggleMove = document.getElementById('btn-toggle-move');
+        const moveModeLabel = document.getElementById('move-mode-label');
         const btnSaveSlide = document.getElementById('btn-save-slide');
+        let isMoveModeActive = false;
         const saveStatus = document.getElementById('save-status');
 
         function initEditor() {
@@ -864,11 +866,7 @@
                 }
             });
 
-            propMoveToggle.addEventListener('change', (e) => {
-                if (selectedElement) {
-                    selectedElement.style.cursor = e.target.checked ? 'grab' : 'crosshair';
-                }
-            });
+            btnToggleMove.addEventListener('click', toggleMoveMode);
 
             btnSaveSlide.addEventListener('click', saveModifiedSlide);
         }
@@ -877,12 +875,29 @@
             return /^#[0-9A-F]{6}$/i.test(hex);
         }
 
+        function toggleMoveMode() {
+            isMoveModeActive = !isMoveModeActive;
+            if (isMoveModeActive) {
+                btnToggleMove.style.background = '#f59e0b';
+                btnToggleMove.style.color = '#fff';
+                moveModeLabel.textContent = 'Mover Livre: ON';
+                // Update cursor if something is already selected
+                if(selectedElement) selectedElement.style.cursor = 'grab';
+            } else {
+                btnToggleMove.style.background = '';
+                btnToggleMove.style.color = '#f59e0b';
+                moveModeLabel.textContent = 'Mover Livre: OFF';
+                if(selectedElement) selectedElement.style.cursor = 'crosshair';
+            }
+        }
+
         function toggleEditor() {
             isEditorActive = !isEditorActive;
             if (isEditorActive) {
                 editorSidebar.classList.add('open');
                 btnToggleEditor.style.background = 'var(--accent-dim)';
                 btnToggleEditor.innerHTML = '✨ Edição Ativa';
+                btnToggleMove.style.display = 'flex'; // Exibe o botão global
                 document.body.classList.add('live-editing-active');
                 enableShadowDOMEditModes();
             } else {
@@ -894,9 +909,11 @@
                     </svg>
                     Editor Automágico
                 `;
+                btnToggleMove.style.display = 'none'; // Esconde botão se editor off
                 document.body.classList.remove('live-editing-active');
                 disableShadowDOMEditModes();
                 deselectElement();
+                if(isMoveModeActive) toggleMoveMode(); // Reset
             }
         }
 
@@ -959,7 +976,7 @@
             if (target !== selectedElement) {
                 target.style.outline = '2px dashed var(--accent)';
                 target.style.outlineOffset = '4px';
-                target.style.cursor = propMoveToggle.checked ? 'grab' : 'crosshair'; // Cursor muda baseado na intenção
+                target.style.cursor = isMoveModeActive ? 'grab' : 'crosshair'; // Cursor muda baseado na intenção global
                 hoverElement = target;
             }
         }
@@ -992,8 +1009,8 @@
             // Ao clicar, selecionamos (foco para editar texto/cor)
             selectElement(target);
 
-            // --- Ativação do Motor Físico (Drag Start) APENAS se o toggle estiver ligado ---
-            if (propMoveToggle.checked) {
+            // --- Ativação do Motor Físico (Drag Start) APENAS se o toggle Global estiver ligado ---
+            if (isMoveModeActive) {
                 isDragging = true;
                 dragStartX = e.clientX;
                 dragStartY = e.clientY;
@@ -1002,32 +1019,27 @@
                 // Se o elemento ainda não é Position Absolute, convertemos cirurgicamente
                 const computedStyle = window.getComputedStyle(selectedElement);
                 if (computedStyle.position !== 'absolute') {
-                    // Descobrir onde ele está visualmente antes de arrancar do fluxo
                     const slideNum = currentSlide + 1;
-                    const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); // The real container
+                    const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); 
                     
                     const targetRect = selectedElement.getBoundingClientRect();
                     const parentRect = canvas.getBoundingClientRect();
 
-                    // Escala atual do responsivo
                     const scale = CANVAS_W / parentRect.width;
 
-                    // Transforma as coordenadas da tela (Pixels exibidos) de volta para a escala do Canvas nativo (1080x1350)
                     const relativeLeft = (targetRect.left - parentRect.left) * scale;
                     const relativeTop = (targetRect.top - parentRect.top) * scale;
                     
-                    // Travar largura para o texto não quebrar de forma estranha ao virar absoluto
                     selectedElement.style.width = computedStyle.width;
                     
                     selectedElement.style.position = 'absolute';
                     selectedElement.style.left = `${relativeLeft}px`;
                     selectedElement.style.top = `${relativeTop}px`;
-                    selectedElement.style.margin = '0'; // Limpa margens relativas antigas
+                    selectedElement.style.margin = '0'; 
                     
                     initialElementX = relativeLeft;
                     initialElementY = relativeTop;
                 } else {
-                    // Já é absoluto, apenas guardamos a posição atual
                     initialElementX = parseFloat(selectedElement.style.left) || 0;
                     initialElementY = parseFloat(selectedElement.style.top) || 0;
                 }
