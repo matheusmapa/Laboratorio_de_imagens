@@ -29,6 +29,17 @@ Você **NUNCA** mexe no `viewer.html` ou tenta reimplementar botões de download
 O `viewer.html` injeta cada slide dentro de um **Shadow DOM** isolado (`attachShadow({mode: 'open'})`).
 Isso significa que **seu CSS nunca vai vazar para o slide vizinho**, e o CSS visual do app nunca vai afetar o seu slide. Você tem liberdade total para criar classes super genéricas e curtas (ex: `.card`, `.box`, `.title`, `.h2`) dentro da sua tag `<style>` sem nenhum medo de colisão. Cada slide é um universo perfeitamente selado.
 
+**SUPER PODER 2: Live Editor Nativo** 🎨
+A plataforma possui um fantástico **Live Editor** de Drag-and-Drop, Bounding Box (Scale com Aspect Ratio Fix), e Text Inspector. 
+Portanto, a IA **NÃO** precisa ficar perdendo tempo rodando dezenas de iterações de teste alterando 1 ou 2 pixels de `top`/`left` para perfeccionismo de posicionamento! O projeto confia na autonomia do usuário humano para ajustar o micro-layout arrastando os itens na tela ou esticando as bordas. Entregue um design harmonioso e informe o usuário de que a partir daquele momento ele tem o volante para as edições micro (texto, cores, posição fina) usando a interface (http://localhost:5173).
+
+---
+
+## Políticas do Projeto e Git (O CMS é Local-First) 🔒
+Este projeto atua como um CMS em Flat-File. O usuário quer que seus posts fiquem apenas salvos em seu HD, sem ir para o Github de forma pública.
+- A pasta `public/posts/*` está intencionalmente barrada no `.gitignore` e não deve ser commitada.
+- Seu foco como IA ao editar posts novos criados dinamicamente é APENAS o FileSystem. Não execute comandos do Git para "salvar os posts", nós salvamos localmente no disco dele. O Git está reservado apenas para atualizações estruturais do motor (Vite, CSS global, Regras).
+
 ---
 
 ## Como Criar Um Post — Passo a Passo
