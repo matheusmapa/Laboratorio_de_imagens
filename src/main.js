@@ -31,7 +31,7 @@ async function init() {
   await loadPosts();
   setupFilters();
   setupModal();
-  setupDragAndDrop();
+  setupUploadModal();
 }
 
 async function loadPosts() {
@@ -471,4 +471,93 @@ function showLoading() {
       </div>
     </div>
   `).join('');
+}
+
+// ─── Upload Modal Engine ───────────────────────────────
+function setupUploadModal() {
+  const uploadModal = document.getElementById('upload-modal');
+  const btnOpen = document.getElementById('btn-open-upload');
+  const btnClose = document.getElementById('close-upload-modal');
+  const dropzone = document.getElementById('upload-dropzone');
+  const fileInput = document.getElementById('upload-file-input');
+  const statusEl = document.getElementById('upload-status');
+
+  // Open / Close
+  btnOpen.addEventListener('click', () => { uploadModal.style.display = 'flex'; });
+  btnClose.addEventListener('click', () => { uploadModal.style.display = 'none'; statusEl.textContent = ''; });
+  uploadModal.addEventListener('click', (e) => { if (e.target === uploadModal) { uploadModal.style.display = 'none'; statusEl.textContent = ''; } });
+
+  // Click to browse
+  dropzone.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) uploadFile(fileInput.files[0]);
+    fileInput.value = '';
+  });
+
+  // Drag and Drop onto the modal zone
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.style.borderColor = 'var(--accent)';
+    dropzone.style.background = 'rgba(99, 102, 241, 0.1)';
+  });
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.style.borderColor = 'var(--border)';
+    dropzone.style.background = 'rgba(255,255,255,0.02)';
+  });
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.style.borderColor = 'var(--border)';
+    dropzone.style.background = 'rgba(255,255,255,0.02)';
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      uploadFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  // Ctrl+V Paste
+  document.addEventListener('paste', (e) => {
+    if (uploadModal.style.display !== 'flex') return;
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const blob = item.getAsFile();
+        if (blob) uploadFile(blob);
+        return;
+      }
+    }
+  });
+
+  // Core upload logic
+  async function uploadFile(file) {
+    if (!file.type.startsWith('image/')) {
+      statusEl.textContent = '⚠️ Apenas imagens são aceitas.';
+      statusEl.style.color = '#f87171';
+      return;
+    }
+    statusEl.textContent = '⏳ Enviando ' + file.name + '...';
+    statusEl.style.color = 'var(--accent)';
+
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try {
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, data: ev.target.result })
+        });
+        const result = await res.json();
+        if (result.success) {
+          statusEl.style.color = '#4ade80';
+          statusEl.textContent = '✅ ' + file.name + ' salvo no Inbox! Diga à I.A: "Use ' + file.name + '"';
+        } else {
+          statusEl.style.color = '#f87171';
+          statusEl.textContent = '❌ Erro: ' + result.error;
+        }
+      } catch (err) {
+        statusEl.style.color = '#f87171';
+        statusEl.textContent = '❌ Falha de conexão com o servidor local.';
+      }
+    };
+    reader.readAsDataURL(file);
+  }
 }
