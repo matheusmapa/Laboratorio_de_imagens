@@ -1172,6 +1172,21 @@
                     newT += dY;
                 }
 
+                // Aspect Ratio Lock (Shift Key) for Corner Handles only
+                if (e.shiftKey && resizeDir.length === 2 && initialResizeRect.height > 0) {
+                    const aspectRatio = initialResizeRect.width / initialResizeRect.height;
+                    
+                    // We let Width pilot the change and correct Height based on it.
+                    // If it was a purely vertical pull, we could let Height pilot, but usually Width feels more natural. 
+                    let correctedH = newW / aspectRatio;
+                    
+                    if (resizeDir.includes('n')) {
+                        // If pulling North, adjust the Top coordinate specifically for the corrected Height
+                        newT = initialResizeRect.top - (correctedH - initialResizeRect.height);
+                    }
+                    newH = correctedH;
+                }
+
                 // Minimum bounds
                 if (newW < 20) {
                     if (resizeDir.includes('w')) newL -= (20 - newW);
