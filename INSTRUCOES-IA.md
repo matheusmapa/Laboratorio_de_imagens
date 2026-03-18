@@ -42,6 +42,11 @@ Este projeto atua como um CMS em Flat-File. O usuário quer que seus posts fique
 
 ---
 
+## Como Editar Um Post Existente (Sistema de ID) 🆔
+Se o usuário colar um ID no chat (Ex: *"vamos editar o `017-medmapa-primeiras-provas`"*), saiba que esse código é a Nomenclatura oficial da pasta. Vá diretamente para `public/posts/[ID-AQUI]/slides/` para fazer as edições necessárias. O usuário copia esse ID através de um botão nativo na dashboard do laboratório.
+
+---
+
 ## Como Criar Um Post — Passo a Passo
 
 ### 1. Nomenclatura e Pasta
