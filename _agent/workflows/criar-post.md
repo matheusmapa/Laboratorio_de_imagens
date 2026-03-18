@@ -31,12 +31,17 @@ Nele vão conter apenas:
 ### 5. Configurar o Dashboard Catálogo
 Adicione seu novo post ao fim do Array no arquivo `C:\Laboratorio_de_imagens\public\posts\registry.json`. Use a propriedade `"id": "NNN-slug"`. Cuidado para inserir a propriedade `"category": "NomeDaPasta"` caso crie subpastas.
 
-### 6. Geração Autônoma e Cloning (Motor de Fogo) 🔥
-Se o usuário anexar uma **imagem de referência** e pedir para clonar ou criar algo similar:
+### 6. Geração Autônoma vs Imagens Reais (Real Asset Protocol) 📸
+Sempre preste atenção à intenção do usuário sobre imagens:
+
+**A. Se o usuário quiser INSPIRAÇÃO / CLONAR uma referência:**
 1.  Use sua ferramenta nativa `generate_image` para criar renders 3D Premium ou illustrations dos personagens/objetos base, garantindo fundos limpos (ex: branco sólido).
-2.  Use o script `node scripts/fetch-asset.js "URL_DA_NET" "C:\...\destino.png"` para baixar texturas/wallpapers remotos sem precisar do usuário.
-3.  Use o script **crucial** `node scripts/remove-bg.js "C:\...\img.png" "C:\...\img-nobg.png"` para isolar/recortar o objeto (usando Inteligência Artificial e a NPU local do usuário). 
-4.  Insira as imagens recém-criadas no HTML do slide usando **posicionamento Absoluto** com z-index avançado, filtros de Drop Shadow pesados e recrie os textos por cima para simular a imersão visual e bater 100% de paridade com o estilo da referência.
+2.  Use o script `node scripts/fetch-asset.js "URL_DA_NET" "C:\...\destino.png"` para baixar texturas remotas.
+3.  Use o script **crucial** `node scripts/remove-bg.js "C:\...\img.png" "C:\...\img-nobg.png"` para isolar/recortar o objeto via NPU local. 
+
+**B. Se o usuário fornecer uma IMAGEM REAL (ex: Foto de um cliente, Logo exato) e exigir USÁ-LA:**
+1. Peça ao usuário para arrastar o arquivo físico para a pasta `public/posts/NNN-slug/assets/` do projeto local.
+2. **REGRA DE OURO:** NUNCA use `generate_image` para sobrescrever essa imagem ou "melhorá-la". Apenas injete a tag `HTML` correspondente: `<img src="assets/nome-da-foto-real.png">` no código. O usuário não quer um avatar 3D substituindo a foto do pai ou do paciente dele!
 
 ### 7. O Pulo do Gato para IAs (Integração com o Live Editor) 🎨
 **Aviso Crítico para Agentes:** O Laboratório de Imagens possui um **Editor Visual (Live Editor) embuitido nativamente no frontend** com Ferramentas de Seleção, Resize Bounding Boxes em CSS, Drag-and-Drop Físico com compensação de offset, e inputs reativos de Fonte/Cor com Undo/Redo (Ctrl+Z).

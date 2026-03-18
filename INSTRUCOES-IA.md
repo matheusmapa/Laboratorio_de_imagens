@@ -96,6 +96,7 @@ Registre seu post no array principal para jogar pro dashboard:
 - Se você tiver um slide com Header (ex: Logo) no topo e Footer (ex: Progresso) embaixo, e quiser centralizar o conteúdo perfeitamente no meio matemático da tela, encapsule esse conteúdo (textos, cards) em uma `div` intermediária flexível (`class="main-content"`) contendo `flex: 1; display: flex; flex-direction: column; justify-content: center;`.
 - Não ocupe o espaço usando `margin-top: 150px` absoluto, isso pode gerar resultados espremidos.
 - Sempre assuma largura e altura absolutas (ex. 1080x1350) para a tag "raiz" do slide.
+- **Protocolo de Imagens Reais (Real Assets):** Se o usuário anexar a foto real de um médico, paciente ou logomarca no chat e pedir para você usá-la, **NÃO CRIE GERAÇÕES EM 3D**. Peça para ele salvar a foto dentro da pasta `public/posts/MOME-DO-POST/assets/nome-da-foto.png` e simplesmente a referencie via `<img src="assets/nome-da-foto.png">`. Respeite a fotografia real do usuário!
 
 ## O que NÃO Fazer 🚫
 - NUNCA coloque scripts de exportação (ex: `html2canvas`) em um post. O sistema já faz isso rodando Chrome Server-side.
