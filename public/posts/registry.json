@@ -1,5 +1,50 @@
 [
     {
+        "id": "011-referencia",
+        "title": "Você no Comando",
+        "description": "Reconstrução visual autônoma da IA clonando uma referência de mão. Geração 3D local e remoção de fundo nativa.",
+        "format": "1080x1350",
+        "slides": 1,
+        "date": "2026-03-17",
+        "tags": [
+            "ia",
+            "referencia",
+            "autonomo",
+            "premium"
+        ],
+        "category": "Novos"
+    },
+    {
+        "id": "018-medmapa-stories-provas",
+        "title": "Stories: Primeiras Provas",
+        "description": "Versão vertical otimizada para Stories focada no desespero das primeiras provas do semestre.",
+        "format": "1080x1920",
+        "slides": 1,
+        "date": "2026-03-17",
+        "tags": [
+            "stories",
+            "provas",
+            "medmapa",
+            "premium"
+        ],
+        "category": "MEDMAPA"
+    },
+    {
+        "id": "017-medmapa-primeiras-provas",
+        "title": "Primeiras Provas do Semestre",
+        "description": "Post focado no desespero das primeiras provas do semestre, destacando Questões, Flashcards e Desempenho no MedMapa.",
+        "format": "1080x1080",
+        "slides": 1,
+        "date": "2026-03-17",
+        "tags": [
+            "provas",
+            "organizacao",
+            "medmapa",
+            "premium"
+        ],
+        "category": "MEDMAPA"
+    },
+    {
         "id": "016-medmapa-recrutamento-embaixadores",
         "title": "Recrutamento de Embaixadores",
         "description": "Post simples e premium para recrutamento de embaixadores MedMapa.",

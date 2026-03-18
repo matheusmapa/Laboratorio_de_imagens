@@ -786,6 +786,13 @@
         let selectedElement = null;
         let hoverElement = null;
 
+        // Drag & Drop State
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let initialElementX = 0;
+        let initialElementY = 0;
+
         const btnToggleEditor = document.getElementById('btn-toggle-editor');
         const editorSidebar = document.getElementById('editor-sidebar');
         const closeEditorBtn = document.getElementById('close-editor');
@@ -809,6 +816,10 @@
                     e.stopPropagation();
                 }
             });
+
+            // Global Mouse events for dragging (bound to window so we don't lose drag when mouse goes outside the element)
+            window.addEventListener('mousemove', handleGlobalMouseMove);
+            window.addEventListener('mouseup', handleGlobalMouseUp);
 
             propText.addEventListener('input', (e) => {
                 if (selectedElement) selectedElement.innerText = e.target.value;
@@ -876,8 +887,46 @@
             }
         }
 
+        // --- DRAG AND DROP ENGINE ---
+        function handleGlobalMouseMove(e) {
+            if (!isEditorActive || !isDragging || !selectedElement) return;
+            
+            e.preventDefault();
+            
+            // Calcula o deslocamento real do mouse desde o click
+            const deltaX = e.clientX - dragStartX;
+            const deltaY = e.clientY - dragStartY;
+
+            // Scale factor: o mouse move X pixels na tela, mas o canvas original tem 1080x1350.
+            // Precisamos descobrir a escala atual do canvas na tela para o drag não "correr" mais rápido que o mouse.
+            const slideNum = currentSlide + 1;
+            const canvasContainer = document.getElementById(`canvas-${slideNum}`).parentElement;
+            const rect = canvasContainer.getBoundingClientRect();
+            // A largura original do canvas é CANVAS_W (ex: 1080). A largura na tela é rect.width.
+            const scale = CANVAS_W / rect.width;
+
+            // Aplica a escala para descobrir quantos "pixels originais" o mouse moveu
+            const newX = initialElementX + (deltaX * scale);
+            const newY = initialElementY + (deltaY * scale);
+
+            selectedElement.style.left = `${newX}px`;
+            selectedElement.style.top = `${newY}px`;
+        }
+
+        function handleGlobalMouseUp(e) {
+            if (isDragging) {
+                isDragging = false;
+                if(selectedElement) {
+                    selectedElement.style.cursor = 'grab';
+                }
+            }
+        }
+
         function handleShadowMouseOver(e) {
+            // ... (resto intacto)
             if (!isEditorActive) return;
+            if (isDragging) return; // Não pisca outlines enquanto arrasta
+
             const target = e.target;
             if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
             
@@ -887,13 +936,13 @@
             if (target !== selectedElement) {
                 target.style.outline = '2px dashed var(--accent)';
                 target.style.outlineOffset = '4px';
-                target.style.cursor = 'crosshair';
+                target.style.cursor = 'grab'; // Indica que é arrastável
                 hoverElement = target;
             }
         }
 
         function handleShadowMouseOut(e) {
-            if (!isEditorActive) return;
+            if (!isEditorActive || isDragging) return;
             const target = e.target;
             if (target === hoverElement && target !== selectedElement) {
                 cleanElementStyles(target);
@@ -917,7 +966,47 @@
             const target = e.target;
             if (target.tagName.toLowerCase() === 'svg' || target.closest('svg') || target.tagName.toLowerCase() === 'img') return;
 
+            // Ao clicar, selecionamos, e também iniciamos o "Drag"
             selectElement(target);
+
+            // --- Ativação do Motor Físico (Drag Start) ---
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            selectedElement.style.cursor = 'grabbing';
+
+            // Se o elemento ainda não é Position Absolute, convertemos cirurgicamente
+            const computedStyle = window.getComputedStyle(selectedElement);
+            if (computedStyle.position !== 'absolute') {
+                // Descobrir onde ele está visualmente antes de arrancar do fluxo
+                const slideNum = currentSlide + 1;
+                const canvas = document.getElementById(`canvas-${slideNum}`).shadowRoot.querySelector('.slide'); // The real container
+                
+                const targetRect = selectedElement.getBoundingClientRect();
+                const parentRect = canvas.getBoundingClientRect();
+
+                // Escala atual do responsivo
+                const scale = CANVAS_W / parentRect.width;
+
+                // Transforma as coordenadas da tela (Pixels exibidos) de volta para a escala do Canvas nativo (1080x1350)
+                const relativeLeft = (targetRect.left - parentRect.left) * scale;
+                const relativeTop = (targetRect.top - parentRect.top) * scale;
+                
+                // Travar largura para o texto não quebrar de forma estranha ao virar absoluto
+                selectedElement.style.width = computedStyle.width;
+                
+                selectedElement.style.position = 'absolute';
+                selectedElement.style.left = `${relativeLeft}px`;
+                selectedElement.style.top = `${relativeTop}px`;
+                selectedElement.style.margin = '0'; // Limpa margens relativas antigas
+                
+                initialElementX = relativeLeft;
+                initialElementY = relativeTop;
+            } else {
+                // Já é absoluto, apenas guardamos a posição atual
+                initialElementX = parseFloat(selectedElement.style.left) || 0;
+                initialElementY = parseFloat(selectedElement.style.top) || 0;
+            }
         }
 
         function selectElement(el) {

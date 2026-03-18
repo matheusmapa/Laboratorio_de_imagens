@@ -1,0 +1,200 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide-wrapper {
+        width: 1080px;
+        height: 1920px;
+        background: #F5F5F7;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 160px 80px; /* Mais padding no topo para Safe Zones */
+        box-sizing: border-box;
+        color: #000;
+    }
+
+    /* Ambient Light Orbs - Ultra subtle Apple style */
+    .orb-1 {
+        position: absolute;
+        top: -150px;
+        right: -150px;
+        width: 900px;
+        height: 900px;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+        filter: blur(80px);
+        z-index: 0;
+    }
+
+    .orb-2 {
+        position: absolute;
+        bottom: -200px;
+        left: -150px;
+        width: 1000px;
+        height: 1000px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+        filter: blur(100px);
+        z-index: 0;
+    }
+
+    /* Top Logo Bar */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        z-index: 10;
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+        margin-bottom: 80px;
+    }
+
+    .logo-icon svg {
+        color: #000;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.05));
+    }
+
+    .content {
+        position: relative;
+        z-index: 5;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Huge Typography */
+    .h1-title {
+        font-size: 110px;
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -6px;
+        margin: 0 0 48px 0;
+        color: #000;
+    }
+
+    .subtitle {
+        font-size: 48px;
+        font-weight: 400;
+        color: #3F3F46;
+        max-width: 900px;
+        line-height: 1.3;
+        letter-spacing: -1.5px;
+        margin-bottom: 50px;
+    }
+
+    .subtitle b {
+        color: #000;
+        font-weight: 700;
+    }
+
+    /* Features Column (Stories Style) */
+    .features {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        margin-bottom: auto;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 48px;
+        padding: 48px 40px;
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.02);
+    }
+
+    .card-icon {
+        font-size: 64px;
+        filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+    }
+
+    .card-label {
+        font-size: 32px;
+        font-weight: 700;
+        color: #18181b;
+        line-height: 1.2;
+    }
+
+    /* Premium CTA Button */
+    .cta-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 40px; /* Safe Zone inferior reduzida para descer o botão */
+        margin-top: 40px;    /* Garante um respiro mínimo caso o 'auto' seja pequeno */
+    }
+
+    .cta {
+        background: #000;
+        color: #fff;
+        padding: 32px 64px;
+        border-radius: 100px;
+        font-size: 38px; /* Texto do cupom um pouco maior */
+        font-weight: 800;
+        letter-spacing: 1px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+    }
+
+    .cta-link {
+        font-size: 28px;
+        font-weight: 600;
+        color: #3b82f6;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+    }
+
+</style>
+
+<div class="slide-wrapper">
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+
+    <div class="top-bar">
+        <div class="logo-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3 2 6v15l7-3 6 3 7-3V3l-7 3-6-3z"></path>
+                <path d="M9 3v15"></path>
+                <path d="M15 6v15"></path>
+            </svg>
+        </div>
+        MedMapa
+    </div>
+
+    <div class="content">
+        <h1 class="h1-title">Primeiras provas.<br>Bateu o desespero?</h1>
+        <p class="subtitle">
+            Calma, respira! Você não precisa organizar esse <b>caos sozinho</b>. Tenha as ferramentas certas ao seu lado.
+        </p>
+
+        <div class="features">
+            <div class="card">
+                <div class="card-icon">📝</div>
+                <div class="card-label">Questões Comentadas</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🃏</div>
+                <div class="card-label">Flashcards Inteligentes</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <div class="card-label">Análise de Desempenho</div>
+            </div>
+        </div>
+
+        <div class="cta-container">
+            <div class="cta" style="left: 2125.82px; top: -1640.71px;">CUPOM: medopen</div>
+            <div class="cta-link">medmapa.com.br</div>
+        </div>
+    </div>
+</div>
