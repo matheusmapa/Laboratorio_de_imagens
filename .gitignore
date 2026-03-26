@@ -34,3 +34,7 @@ public/posts/*
 !public/posts/001-post-exemplo/
 !public/posts/registry.example.json
 
+
+# Private User Data
+public/posts/registry.json
+public/inbox/*
