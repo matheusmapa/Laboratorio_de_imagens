@@ -1,10 +1,10 @@
 # Logs
 logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+npm-debug.log*  
+yarn-debug.log* 
+yarn-error.log* 
+pnpm-debug.log* 
 lerna-debug.log*
 
 node_modules
@@ -23,18 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
-# Ignorar Posts Dinâmicos e Banco de Dados Local
+# FERRAMENTA ISOLADA
 public/posts/*
 !public/posts/viewer.html
-!public/posts/004-style-catalog/
-
-
-!public/posts/005-editorial-design/
-!public/posts/003-design-expert/
-!public/posts/001-post-exemplo/
 !public/posts/registry.example.json
-
-
-# Private User Data
-public/posts/registry.json
 public/inbox/*
