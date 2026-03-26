@@ -33,6 +33,9 @@ Isso significa que **seu CSS nunca vai vazar para o slide vizinho**, e o CSS vis
 A plataforma possui um fantástico **Live Editor** de Drag-and-Drop, Bounding Box (Scale com Aspect Ratio Fix), e Text Inspector. 
 Portanto, a IA **NÃO** precisa ficar perdendo tempo rodando dezenas de iterações de teste alterando 1 ou 2 pixels de `top`/`left` para perfeccionismo de posicionamento! O projeto confia na autonomia do usuário humano para ajustar o micro-layout arrastando os itens na tela ou esticando as bordas. Entregue um design harmonioso e informe o usuário de que a partir daquele momento ele tem o volante para as edições micro (texto, cores, posição fina) usando a interface (http://localhost:5173).
 
+**SUPER PODER 3: Live Scripts** 🎨
+Você pode utilizar alguns scripts que estão dentro da pasta para fazer algumas mudanças, como por exemplo remover o fundo de uma imagem
+
 ---
 
 ## Políticas do Projeto e Git (O CMS é Local-First) 🔒
