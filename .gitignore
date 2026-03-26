@@ -27,4 +27,8 @@ dist-ssr
 public/posts/*
 !public/posts/viewer.html
 !public/posts/registry.example.json
+!public/posts/001-post-exemplo/
+!public/posts/003-design-expert/
+!public/posts/004-style-catalog/
+!public/posts/005-editorial-design/
 public/inbox/*
