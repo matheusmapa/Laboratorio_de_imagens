@@ -1,0 +1,81 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: #fff;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 60px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        color: #000;
+    }
+
+    .magazine-header {
+        font-size: 220px;
+        font-weight: 900;
+        letter-spacing: -15px;
+        line-height: 0.7;
+        margin-bottom: 60px;
+        text-align: center;
+        border-bottom: 20px solid #000;
+        width: 100%;
+        padding-bottom: 40px;
+    }
+
+    .columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        flex: 1;
+    }
+
+    .col {
+        font-size: 24px;
+        line-height: 1.5;
+        font-weight: 500;
+        text-align: justify;
+    }
+
+    .dropcap {
+        float: left;
+        font-size: 120px;
+        font-weight: 900;
+        line-height: 0.8;
+        padding-right: 15px;
+        padding-top: 5px;
+    }
+
+    .featured-box {
+        grid-column: span 2;
+        background: #000;
+        color: #fff;
+        padding: 40px;
+        font-weight: 800;
+        font-size: 40px;
+        margin-top: 40px;
+        text-transform: uppercase;
+    }
+</style>
+
+<div class="slide">
+    <h1 class="magazine-header">MAG</h1>
+
+    <div class="columns">
+        <div class="col">
+            <span class="dropcap">A</span> estrutura de carrossel permite narrativas profundas. Quando tratamos cada
+            slide como uma página de revista, elevamos a percepção de valor do conteúdo entregue.
+        </div>
+        <div class="col">
+            O design editorial clássico sobrevive no digital através da hierarquia clara. Títulos imensos, colunas de
+            texto e o uso estratégico de espaços em branco são as ferramentas do mestre.
+        </div>
+
+        <div class="featured-box">
+            "Design is not just what it looks like and feels like. Design is how it works."
+        </div>
+    </div>
+</div>

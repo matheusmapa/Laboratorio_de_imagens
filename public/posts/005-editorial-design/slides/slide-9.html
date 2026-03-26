@@ -1,0 +1,76 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: #facc15;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .pattern-bg {
+        position: absolute;
+        inset: -200px;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 40px;
+        transform: rotate(-15deg);
+        opacity: 0.15;
+    }
+
+    .logo-repeat {
+        font-weight: 900;
+        font-size: 80px;
+        color: #000;
+    }
+
+    .center-card {
+        background: #000;
+        color: #fff;
+        padding: 80px;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        border-radius: 40px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+        font-size: 80px;
+        font-weight: 900;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="slide">
+    <div class="pattern-bg">
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MED</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MAPA</div>
+        <div class="logo-repeat">MED</div>
+    </div>
+
+    <div class="center-card">
+        <h1 class="title">VISUAL<br>IDENTITY.</h1>
+        <p style="font-size: 28px; font-weight: 700;">Repetição cria reconhecimento. Use patterns para preencher o fundo
+            com a alma da marca.</p>
+    </div>
+</div>

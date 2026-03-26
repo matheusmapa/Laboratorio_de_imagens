@@ -1,0 +1,133 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+    .slide {
+        width: 1080px;
+        height: 1350px;
+        background: #030612;
+        font-family: 'Inter', sans-serif;
+        position: relative;
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        color: white;
+        overflow: hidden;
+    }
+
+    .blueprint-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/posts/003-design-expert/assets/blueprint.png');
+        background-size: cover;
+        opacity: 0.2;
+        z-index: 0;
+    }
+
+    .main-content {
+        position: relative;
+        z-index: 2;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .header-group {
+        border-left: 8px solid #3b82f6;
+        padding-left: 40px;
+        margin-bottom: 60px;
+    }
+
+    .title {
+        font-size: 80px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: -2px;
+        line-height: 1;
+    }
+
+    .subtitle {
+        font-size: 32px;
+        color: #3b82f6;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .grid-nodes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+
+    .node {
+        background: rgba(59, 130, 246, 0.05);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        padding: 40px;
+        border-radius: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .node-label {
+        font-size: 18px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        font-weight: 800;
+        letter-spacing: 2px;
+    }
+
+    .node-value {
+        font-size: 48px;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .glow-line {
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 120%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+        box-shadow: 0 0 20px #3b82f6;
+        transform: rotate(-15deg);
+        opacity: 0.3;
+        z-index: 1;
+    }
+</style>
+
+<div class="slide">
+    <div class="blueprint-bg"></div>
+    <div class="glow-line"></div>
+
+    <div class="main-content">
+        <div class="header-group">
+            <h1 class="title">Tech Patterns</h1>
+            <p class="subtitle">Texturas e Grids</p>
+        </div>
+
+        <div class="grid-nodes">
+            <div class="node">
+                <div class="node-label">Sintonia</div>
+                <div class="node-value">98.4%</div>
+            </div>
+            <div class="node">
+                <div class="node-label">Latência</div>
+                <div class="node-value">12ms</div>
+            </div>
+            <div class="node">
+                <div class="node-label">Fluxo</div>
+                <div class="node-value">Ativo</div>
+            </div>
+            <div class="node">
+                <div class="node-label">Modo</div>
+                <div class="node-value">Expert</div>
+            </div>
+        </div>
+    </div>
+</div>
